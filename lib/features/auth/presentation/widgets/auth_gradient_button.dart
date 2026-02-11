@@ -3,7 +3,8 @@ import 'package:myblog/core/theme/app_pallete.dart';
 
 class AuthGradientButton extends StatefulWidget {
   final String buttonText;
-  const AuthGradientButton({super.key,required this.buttonText});
+  final VoidCallback onPressed;
+  const AuthGradientButton({super.key, required this.buttonText,required this.onPressed});
 
   @override
   State<AuthGradientButton> createState() => _AuthGradientButtonState();
@@ -22,7 +23,7 @@ class _AuthGradientButtonState extends State<AuthGradientButton> {
         ),
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed:widget.onPressed,
 
         style: ElevatedButton.styleFrom(
           fixedSize: Size(395, 55),

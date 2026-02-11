@@ -20,5 +20,9 @@ class UserSignUpParams {
   final String name;
   final String email;
   final String password;
-  UserSignUpParams(this.name, this.email, this.password);
+  UserSignUpParams({
+    required this.name,
+    required this.email,
+    required this.password,
+  });
 }

@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 15),
               AuthField(hintText: "Password",controller: passwordController,isObscureText: true,),
               SizedBox(height: 15),
-              AuthGradientButton(buttonText: "Sign In",),
+              AuthGradientButton(buttonText: "Sign In",onPressed: (){},),
               SizedBox(height: 15),
               GestureDetector(
                 onTap: () {
