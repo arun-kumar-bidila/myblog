@@ -1,6 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:myblog/core/error/exceptions.dart';
 import 'package:myblog/features/auth/data/models/user_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
   Future<UserModel> signUpWithEmailPassword({
@@ -16,8 +16,12 @@ abstract interface class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final SupabaseClient supabaseClient;
-  AuthRemoteDataSourceImpl(this.supabaseClient);
+  // final SupabaseClient supabaseClient;
+  final Dio dio;
+  AuthRemoteDataSourceImpl(
+    // this.supabaseClient,
+    this.dio,
+  );
   @override
   Future<UserModel> loginWithEmailPassword({
     required String email,
@@ -34,18 +38,24 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      final response = await supabaseClient.auth.signUp(
-        email: email,
-        password: password,
-        data: {'name': name},
+      // final response = await supabaseClient.auth.signUp(
+      //   email: email,
+      //   password: password,
+      //   data: {'name': name},
+      // );
+
+      final response = await dio.post(
+        "/api/auth/signup",
+        data: {"name": name, "email": email, "password": password},
       );
 
-      if (response.user == null) {
-        throw ServerException("User is null");
+      if (response.statusCode == 201) {
+        final data = response.data;
+        return UserModel.fromJson(data["user"]);
+      } else {
+        throw ServerException(response.data["message"]);
       }
-
-      return UserModel.fromJson(response.user!.toJson());
-    } catch (e) {
+    } on DioException catch (e) {
       throw ServerException(e.toString());
     }
   }
