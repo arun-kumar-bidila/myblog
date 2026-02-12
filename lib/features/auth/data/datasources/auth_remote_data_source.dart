@@ -26,9 +26,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<UserModel> loginWithEmailPassword({
     required String email,
     required String password,
-  }) {
-    // TODO: implement loginWithEmailPassword
-    throw UnimplementedError();
+  }) async {
+    try {
+      final response = await dio.post(
+        "/api/auth/login",
+        data: {"email": email, "password": password},
+      );
+
+      if (response.statusCode == 200) {
+        return UserModel.fromJson(response.data["user"]);
+      } else {
+        throw ServerException(response.data["message"]);
+      }
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
   }
 
   @override

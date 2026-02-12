@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myblog/core/theme/theme.dart';
 import 'package:myblog/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:myblog/features/auth/data/repository/auth_repository_impl.dart';
+import 'package:myblog/features/auth/domain/usecases/user_login.dart';
 import 'package:myblog/features/auth/domain/usecases/user_signup.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/auth/presentation/pages/signup_page.dart';
@@ -28,6 +29,9 @@ void main() async {
         BlocProvider(
           create: (_) => AuthBloc(
             userSignUp: UserSignup(
+              AuthRepositoryImpl(AuthRemoteDataSourceImpl(dio)),
+            ),
+            userLogin: UserLogin(
               AuthRepositoryImpl(AuthRemoteDataSourceImpl(dio)),
             ),
           ),
