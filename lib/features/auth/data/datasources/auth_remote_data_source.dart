@@ -94,6 +94,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       final token = await storage.read(key: "token");
 
+      
+
       dio.options.headers["Authorization"] = "Bearer $token";
       final response = await dio.get("/api/auth/getuser");
 

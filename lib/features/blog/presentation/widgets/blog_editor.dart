@@ -15,8 +15,10 @@ class _BlogEditorState extends State<BlogEditor> {
     return TextFormField(
       controller: widget.controller,
       decoration: InputDecoration(
-        hintText: widget.hintText
+        hintText: widget.hintText,
+        
       ),
+      maxLines: null,
     );
   }
 }
