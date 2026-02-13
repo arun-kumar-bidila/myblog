@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myblog/core/cubits/app_user/app_user_cubit.dart';
 import 'package:myblog/core/theme/theme.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:myblog/features/auth/presentation/pages/signup_page.dart';
-import 'package:myblog/features/home/home.dart';
+import 'package:myblog/features/auth/presentation/pages/login_page.dart';
+import 'package:myblog/features/blog/presentation/pages/blog_page.dart';
 import 'package:myblog/init_dependencies.dart';
 
 void main() async {
@@ -49,9 +49,10 @@ class _MyAppState extends State<MyApp> {
         },
         builder: (context, isLoggedIn) {
           if (isLoggedIn) {
-            return Home();
+            return BlogPage();
+          } else {
+            return LoginPage();
           }
-          return SignupPage();
         },
       ),
     );
