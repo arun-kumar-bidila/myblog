@@ -65,7 +65,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      
       final response = await dio.post(
         "/api/auth/signup",
         data: {"name": name, "email": email, "password": password},
@@ -93,6 +92,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> getUserData() async {
     try {
+      final token = await storage.read(key: "token");
+
+      dio.options.headers["Authorization"] = "Bearer $token";
       final response = await dio.get("/api/auth/getuser");
 
       if (response.statusCode != 200) {

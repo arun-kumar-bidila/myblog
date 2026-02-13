@@ -1,4 +1,4 @@
-import 'package:myblog/features/auth/domain/entites/user.dart';
+import 'package:myblog/core/entites/user.dart';
 
 class UserModel extends User {
   UserModel({required super.id, required super.name, required super.email});

@@ -2,7 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:myblog/core/error/exceptions.dart';
 import 'package:myblog/core/error/failure.dart';
 import 'package:myblog/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:myblog/features/auth/domain/entites/user.dart';
+import 'package:myblog/core/entites/user.dart';
 import 'package:myblog/features/auth/domain/repository/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -48,6 +48,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, User>> getUserData() async {
     try {
+      
       final user = await remoteDataSource.getUserData();
 
       return right(user);
