@@ -43,9 +43,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         await storage.write(key: "token", value: data["accessToken"]);
 
         final token = await storage.read(key: "token");
-        print("\n");
-        print(token);
-        print("\n");
 
         dio.options.headers["Authorization"] = "Bearer $token";
 
@@ -75,9 +72,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         await storage.write(key: "token", value: data["accessToken"]);
 
         final token = await storage.read(key: "token");
-        print("\n");
-        print(token);
-        print("\n");
+
 
         dio.options.headers["Authorization"] = "Bearer $token";
         return UserModel.fromJson(data["user"]);

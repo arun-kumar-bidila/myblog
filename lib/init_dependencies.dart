@@ -9,10 +9,15 @@ import 'package:myblog/features/auth/domain/usecases/get_user.dart';
 import 'package:myblog/features/auth/domain/usecases/user_login.dart';
 import 'package:myblog/features/auth/domain/usecases/user_signup.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:myblog/features/blog/data/datasources/blog_remote_data_source.dart';
+import 'package:myblog/features/blog/data/repostories/blog_repository_impl.dart';
+import 'package:myblog/features/blog/domain/repositores/blog_repository.dart';
+import 'package:myblog/features/blog/domain/usecases/upload_blog.dart';
+import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
 
 final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
-  _initAuth();
+ 
   final dio = Dio(
     BaseOptions(
       baseUrl: "http://10.0.2.2:3001",
@@ -27,6 +32,9 @@ Future<void> initDependencies() async {
 
   //core
   serviceLocator.registerLazySingleton(() => AppUserCubit());
+
+   _initAuth();
+  _initBlog();
 }
 
 void _initAuth() {
@@ -48,4 +56,12 @@ void _initAuth() {
         appUserCubit: serviceLocator(),
       ),
     );
+}
+
+void _initBlog() {
+  serviceLocator
+    ..registerFactory<BlogRemoteDataSource>(() => BlogRemoteDataSourceImpl(serviceLocator()))
+    ..registerFactory<BlogRepository>(() => BlogRepositoryImpl(serviceLocator()))
+    ..registerFactory(() => UploadBlog(serviceLocator()))
+    ..registerLazySingleton(() => BlogBloc(uploadBlog: serviceLocator()));
 }

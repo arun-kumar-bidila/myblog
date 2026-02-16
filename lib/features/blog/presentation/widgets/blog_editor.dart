@@ -19,6 +19,13 @@ class _BlogEditorState extends State<BlogEditor> {
         
       ),
       maxLines: null,
+      validator: (value){
+       if (value!.isEmpty) {
+          return "Please enter ${widget.hintText}";
+        } else {
+          return null;
+        }
+      },
     );
   }
 }

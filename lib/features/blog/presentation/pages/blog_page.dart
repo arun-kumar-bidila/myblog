@@ -4,6 +4,7 @@ import 'package:myblog/features/auth/presentation/pages/signup_page.dart';
 import 'package:myblog/features/blog/presentation/pages/add_new_blog.dart';
 
 class BlogPage extends StatefulWidget {
+  static route() => MaterialPageRoute(builder: (_) => BlogPage());
   const BlogPage({super.key});
 
   @override
