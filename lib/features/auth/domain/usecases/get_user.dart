@@ -8,7 +8,7 @@ class GetUser implements UseCase<User, NoParams> {
   final AuthRepository authRepository;
   GetUser(this.authRepository);
   @override
-  Future<Either<Failure, User>> call(NoParams parms) async {
+  Future<Either<Failure, User>> call(NoParams params) async {
      return await authRepository.getUserData();
   }
 }

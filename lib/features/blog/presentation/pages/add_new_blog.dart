@@ -13,7 +13,7 @@ import 'package:myblog/features/blog/presentation/pages/blog_page.dart';
 import 'package:myblog/features/blog/presentation/widgets/blog_editor.dart';
 
 class AddNewBlog extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (context) => AddNewBlog());
+  static Route route() => MaterialPageRoute(builder: (context) => AddNewBlog());
   const AddNewBlog({super.key});
 
   @override
@@ -78,7 +78,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
         listener: (context, state) {
           if (state is BlogFailure) {
             showSnackBar(context, state.message);
-          } else if (state is BlogSuccess) {
+          } else if (state is BlogUploadSuccess) {
             Navigator.pushAndRemoveUntil(
               context,
               BlogPage.route(),

@@ -12,15 +12,15 @@ import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/blog/data/datasources/blog_remote_data_source.dart';
 import 'package:myblog/features/blog/data/repostories/blog_repository_impl.dart';
 import 'package:myblog/features/blog/domain/repositores/blog_repository.dart';
+import 'package:myblog/features/blog/domain/usecases/get_all_blogs.dart';
 import 'package:myblog/features/blog/domain/usecases/upload_blog.dart';
 import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
 
 final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
- 
   final dio = Dio(
     BaseOptions(
-      baseUrl: "http://10.0.2.2:3001",
+      baseUrl: "https://myblogserver-55ix.onrender.com",
       headers: {"Content-Type": "application/json"},
     ),
   );
@@ -33,7 +33,7 @@ Future<void> initDependencies() async {
   //core
   serviceLocator.registerLazySingleton(() => AppUserCubit());
 
-   _initAuth();
+  _initAuth();
   _initBlog();
 }
 
@@ -60,8 +60,16 @@ void _initAuth() {
 
 void _initBlog() {
   serviceLocator
-    ..registerFactory<BlogRemoteDataSource>(() => BlogRemoteDataSourceImpl(serviceLocator()))
-    ..registerFactory<BlogRepository>(() => BlogRepositoryImpl(serviceLocator()))
+    ..registerFactory<BlogRemoteDataSource>(
+      () => BlogRemoteDataSourceImpl(serviceLocator()),
+    )
+    ..registerFactory<BlogRepository>(
+      () => BlogRepositoryImpl(serviceLocator()),
+    )
     ..registerFactory(() => UploadBlog(serviceLocator()))
-    ..registerLazySingleton(() => BlogBloc(uploadBlog: serviceLocator()));
+    ..registerFactory(() => GetAllBlogs(serviceLocator()))
+    ..registerLazySingleton(
+      () =>
+          BlogBloc(uploadBlog: serviceLocator(), getAllBlogs: serviceLocator()),
+    );
 }

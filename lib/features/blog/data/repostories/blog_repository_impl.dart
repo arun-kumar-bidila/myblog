@@ -22,9 +22,7 @@ class BlogRepositoryImpl implements BlogRepository {
     required String posterId,
   }) async {
     try {
-      final imageUrl = await blogRemoteDataSource.uploadBlogImage(
-        image: image,
-      );
+      final imageUrl = await blogRemoteDataSource.uploadBlogImage(image: image);
 
       BlogModel blog = BlogModel(
         id: "",
@@ -36,11 +34,19 @@ class BlogRepositoryImpl implements BlogRepository {
         updated: DateTime.now(),
       );
 
-      final uploadedBlog = await blogRemoteDataSource.uploadBlog(
-        blog: blog,
-      );
+      final uploadedBlog = await blogRemoteDataSource.uploadBlog(blog: blog);
 
       return right(uploadedBlog);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Blog>>> getAllBlogs() async {
+    try {
+      final blogs = await blogRemoteDataSource.getAllBlogs();
+      return right(blogs);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }

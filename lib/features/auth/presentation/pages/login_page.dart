@@ -9,7 +9,7 @@ import 'package:myblog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_gradient_button.dart';
 
 class LoginPage extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (context) => LoginPage());
+  static Route route() => MaterialPageRoute(builder: (context) => LoginPage());
   const LoginPage({super.key});
 
   @override
