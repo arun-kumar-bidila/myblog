@@ -7,6 +7,7 @@ import 'package:myblog/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:myblog/features/auth/domain/repository/auth_repository.dart';
 import 'package:myblog/features/auth/domain/usecases/get_user.dart';
 import 'package:myblog/features/auth/domain/usecases/user_login.dart';
+import 'package:myblog/features/auth/domain/usecases/user_logout.dart';
 import 'package:myblog/features/auth/domain/usecases/user_signup.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/blog/data/datasources/blog_remote_data_source.dart';
@@ -22,7 +23,9 @@ Future<void> initDependencies() async {
     BaseOptions(
       baseUrl: "https://myblogserver-55ix.onrender.com",
       headers: {"Content-Type": "application/json"},
+      validateStatus: (status) => true,
     ),
+    
   );
 
   final storage = FlutterSecureStorage();
@@ -48,12 +51,14 @@ void _initAuth() {
     ..registerFactory(() => UserSignup(serviceLocator()))
     ..registerFactory(() => UserLogin(serviceLocator()))
     ..registerFactory(() => GetUser(serviceLocator()))
+    ..registerFactory(()=>UserLogout(serviceLocator()))
     ..registerLazySingleton(
       () => AuthBloc(
         userSignUp: serviceLocator(),
         userLogin: serviceLocator(),
         getUser: serviceLocator(),
         appUserCubit: serviceLocator(),
+        userLogout: serviceLocator()
       ),
     );
 }

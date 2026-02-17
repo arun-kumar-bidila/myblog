@@ -16,6 +16,8 @@ abstract interface class AuthRemoteDataSource {
   });
 
   Future<UserModel> getUserData();
+
+  Future<void> userLogOut();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -73,7 +75,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
         final token = await storage.read(key: "token");
 
-
         dio.options.headers["Authorization"] = "Bearer $token";
         return UserModel.fromJson(data["user"]);
       } else {
@@ -89,8 +90,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       final token = await storage.read(key: "token");
 
-      
-
       dio.options.headers["Authorization"] = "Bearer $token";
       final response = await dio.get("/api/auth/getuser");
 
@@ -98,6 +97,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw ServerException(response.data["message"]);
       }
       return UserModel.fromJson(response.data["user"]);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> userLogOut() async {
+    try {
+      await storage.write(key: "token", value: "");
+      
     } catch (e) {
       throw ServerException(e.toString());
     }

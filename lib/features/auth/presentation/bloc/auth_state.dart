@@ -18,4 +18,11 @@ final class AuthFailure extends AuthState {
   AuthFailure(this.message);
 }
 
+final class AuthUserFetchFailure extends AuthState {}
 
+final class AuthLogOutSuccess extends AuthState {}
+
+final class AuthLogOutFailure extends AuthState {
+  final String message;
+  AuthLogOutFailure(this.message);
+}
