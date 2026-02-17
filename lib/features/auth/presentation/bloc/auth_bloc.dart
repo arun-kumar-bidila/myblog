@@ -41,10 +41,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     final res = await _userLogout(NoParams());
 
-    res.fold(
-      (l) => emit(AuthLogOutFailure(l.message)),
-      (r) => emit(AuthLogOutSuccess()),
-    );
+    res.fold((l) => emit(AuthLogOutFailure(l.message)), (r) {
+      _appUserCubit.updateUser(null);
+      emit(AuthLogOutSuccess());
+    });
   }
 
   void _getUserData(IsUserLoggedIn event, Emitter<AuthState> emit) async {

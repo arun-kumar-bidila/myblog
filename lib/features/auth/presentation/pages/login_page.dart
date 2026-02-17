@@ -7,7 +7,7 @@ import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/auth/presentation/pages/signup_page.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_gradient_button.dart';
-import 'package:myblog/features/blog/presentation/pages/blog_page.dart';
+
 
 class LoginPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(builder: (context) => LoginPage());
@@ -33,12 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                 showSnackBar(context, state.message);
               }
               if (state is AuthSuccess) {
-                // showSnackBar(context, "Login Successful");
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  BlogPage.route(),
-                  (route) => false,
-                );
+                showSnackBar(context, "Login Successful");
               }
             },
             builder: (context, state) {

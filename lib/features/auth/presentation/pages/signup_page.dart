@@ -4,7 +4,6 @@ import 'package:myblog/core/common/loader.dart';
 import 'package:myblog/core/theme/app_pallete.dart';
 import 'package:myblog/core/utils/show_snackbar.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:myblog/features/auth/presentation/pages/login_page.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_gradient_button.dart';
 
@@ -36,6 +35,7 @@ class _SignupPageState extends State<SignupPage> {
                 showSnackBar(context, state.message);
               } else if (state is AuthSuccess) {
                 showSnackBar(context, "Sign Up Success");
+                Navigator.of(context).popUntil((route) => route.isFirst);
               }
             },
             builder: (context, state) {
@@ -77,13 +77,12 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                           );
                         }
-                         
                       },
                     ),
                     SizedBox(height: 15),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, LoginPage.route());
+                        Navigator.pop(context);
                       },
                       child: RichText(
                         text: TextSpan(
