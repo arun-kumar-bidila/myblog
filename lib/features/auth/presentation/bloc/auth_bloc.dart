@@ -77,7 +77,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     res.fold((l) => emit(AuthSignUpFailure(l.message)), (user) {
       _appUserCubit.updateUser(user);
       emit(AuthSignUpSuccess(user));
-     
     });
   }
 

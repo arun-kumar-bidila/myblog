@@ -28,14 +28,20 @@ class _BlogPageState extends State<BlogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Blog App"),
+        title: Text(
+          "My Blog",
+          style: TextStyle(
+            color: AppPallete.whiteColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
             context.read<AuthBloc>().add(AuthUserLogOut());
             // Navigator.push(context, SignupPage.route());
           },
-          icon: Icon(Icons.logout),
+          icon: Icon(Icons.logout, color: AppPallete.whiteColor),
         ),
         actions: [
           IconButton(
@@ -50,7 +56,10 @@ class _BlogPageState extends State<BlogPage> {
                 blogBloc.add(BlogFetchAll());
               }
             },
-            icon: Icon(CupertinoIcons.add_circled),
+            icon: Icon(
+              CupertinoIcons.add_circled,
+              color: AppPallete.whiteColor,
+            ),
           ),
         ],
       ),
@@ -72,11 +81,7 @@ class _BlogPageState extends State<BlogPage> {
 
                 return BlogCard(
                   blog: blog,
-                  color: index % 3 == 0
-                      ? AppPallete.gradient1
-                      : index % 3 == 1
-                      ? AppPallete.gradient2
-                      : AppPallete.gradient2,
+                  
                 );
               },
             );
