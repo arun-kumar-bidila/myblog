@@ -8,7 +8,6 @@ import 'package:myblog/features/auth/presentation/pages/signup_page.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_gradient_button.dart';
 
-
 class LoginPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(builder: (context) => LoginPage());
   const LoginPage({super.key});
@@ -28,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
     passwordController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,11 +35,13 @@ class _LoginPageState extends State<LoginPage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: BlocConsumer<AuthBloc, AuthState>(
+            listenWhen: (previous, current) =>
+                current is AuthLoginFailure || current is AuthLoginSuccess,
             listener: (context, state) {
-              if (state is AuthFailure) {
+              if (state is AuthLoginFailure) {
                 showSnackBar(context, state.message);
               }
-              if (state is AuthSuccess) {
+              if (state is AuthLoginSuccess) {
                 showSnackBar(context, "Login Successful");
               }
             },
@@ -96,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                               text: "Sign Up",
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(
-                                    color: AppPallete.gradient1,
+                                    color: AppPallete.secondaryColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),

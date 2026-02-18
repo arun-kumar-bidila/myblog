@@ -38,23 +38,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onAuthUserLogOut(AuthUserLogOut event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
+    // emit(AuthLoading());
     final res = await _userLogout(NoParams());
 
     res.fold((l) => emit(AuthLogOutFailure(l.message)), (r) {
       _appUserCubit.updateUser(null);
-      emit(AuthLogOutSuccess());
+      // emit(AuthLogOutSuccess());
     });
   }
 
   void _getUserData(IsUserLoggedIn event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
+    // emit(AuthLoading());
 
     final res = await _getUser(NoParams());
 
     res.fold(
-      (l) => emit(AuthUserFetchFailure()),
-      (r) => _emitAuthSuccess(r, emit),
+      (l) {
+        _appUserCubit.updateUser(null);
+        // emit(AuthUserFetchFailure());
+      },
+      (user) {
+        _appUserCubit.updateUser(user);
+        // emit(AuthUserFetchSuccess(user));
+      },
     );
   }
 
@@ -68,10 +74,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ),
     );
 
-    res.fold(
-      (l) => emit(AuthFailure(l.message)),
-      (user) => _emitAuthSuccess(user, emit),
-    );
+    res.fold((l) => emit(AuthSignUpFailure(l.message)), (user) {
+      _appUserCubit.updateUser(user);
+      emit(AuthSignUpSuccess(user));
+     
+    });
   }
 
   void _onAuthLogin(AuthLogin event, Emitter<AuthState> emit) async {
@@ -80,14 +87,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       UserLoginParams(email: event.email, password: event.password),
     );
 
-    res.fold(
-      (failure) => emit(AuthFailure(failure.message)),
-      (user) => _emitAuthSuccess(user, emit),
-    );
-  }
-
-  void _emitAuthSuccess(User user, Emitter<AuthState> emit) {
-    _appUserCubit.updateUser(user);
-    emit(AuthSuccess(user));
+    res.fold((failure) => emit(AuthLoginFailure(failure.message)), (user) {
+      _appUserCubit.updateUser(user);
+      emit(AuthLoginSuccess(user));
+    });
   }
 }

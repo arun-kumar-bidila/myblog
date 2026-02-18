@@ -7,14 +7,14 @@ void showSnackBar(BuildContext context, String content) {
     ..showSnackBar(
       SnackBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
-        behavior: SnackBarBehavior.floating,
+        backgroundColor: AppPallete.whiteColor,
+        // behavior: SnackBarBehavior.floating,
         content: Center(
           child: Text(
             content,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: AppPallete.gradient2,
+              color: AppPallete.primaryColor,
             ),
           ),
         ),

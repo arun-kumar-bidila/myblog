@@ -8,7 +8,7 @@ class Loader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: CircularProgressIndicator(
-        color: AppPallete.gradient1,
+        color: AppPallete.secondaryColor,
         strokeWidth: 5,
       ),
     );

@@ -16,11 +16,7 @@ class _AuthGradientButtonState extends State<AuthGradientButton> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7),
-        gradient: LinearGradient(
-          colors: [AppPallete.gradient1, AppPallete.gradient2],
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-        ),
+       color: AppPallete.buttonColor
       ),
       child: ElevatedButton(
         onPressed:widget.onPressed,
@@ -32,7 +28,7 @@ class _AuthGradientButtonState extends State<AuthGradientButton> {
         ),
         child: Text(
           widget.buttonText,
-          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600,color: AppPallete.whiteColor),
         ),
       ),
     );

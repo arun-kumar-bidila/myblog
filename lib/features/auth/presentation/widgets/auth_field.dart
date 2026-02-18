@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myblog/core/theme/app_pallete.dart';
 
 class AuthField extends StatefulWidget {
   final String hintText;
@@ -9,7 +10,7 @@ class AuthField extends StatefulWidget {
     super.key,
     required this.hintText,
     required this.controller,
-    this.isObscureText=false
+    this.isObscureText = false,
   });
 
   @override
@@ -22,7 +23,11 @@ class _AuthFieldState extends State<AuthField> {
     return TextFormField(
       controller: widget.controller,
       obscureText: widget.isObscureText,
-      decoration: InputDecoration(hintText: widget.hintText),
+      decoration: InputDecoration(
+        hintText: widget.hintText,
+        hintStyle: TextStyle(color: AppPallete.greyColor),
+      ),
+      cursorColor: AppPallete.secondaryColor,
       validator: (value) {
         if (value!.isEmpty) {
           return "Please enter ${widget.hintText}";

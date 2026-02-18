@@ -11,8 +11,9 @@ class AppTheme {
     scaffoldBackgroundColor: AppPallete.backgroundColor,
     inputDecorationTheme: InputDecorationTheme(
       enabledBorder: _border(),
-      focusedBorder: _border(AppPallete.gradient2),
+      focusedBorder: _border(AppPallete.secondaryColor),
       contentPadding: .all(27),
+      
     ),
     appBarTheme: AppBarTheme(backgroundColor: AppPallete.backgroundColor),
   );

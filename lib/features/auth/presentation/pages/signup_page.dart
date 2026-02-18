@@ -7,6 +7,7 @@ import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_gradient_button.dart';
 
+
 class SignupPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(builder: (context) => SignupPage());
   const SignupPage({super.key});
@@ -20,39 +21,43 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  
 
   @override
   void dispose() {
-    
-   
     nameController.dispose();
     emailController.dispose();
-    passwordController.dispose(); 
-     super.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
+      // appBar: AppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              if (state is AuthFailure) {
+              if (state is AuthSignUpFailure) {
                 showSnackBar(context, state.message);
-              } else if (state is AuthSuccess) {
+              } else if (state is AuthSignUpSuccess) {
+                // Navigator.of(context).popUntil((route) => route.isFirst);
+                // Navigator.of(context).pushReplacement(BlogPage.route());
+                // Navigator.of(
+                //   context,
+                // ).pushAndRemoveUntil(BlogPage.route(), (route) => false);
+                Navigator.pop(context);
                 showSnackBar(context, "Sign Up Success");
-                Navigator.of(context).popUntil((route) => route.isFirst);
               }
             },
             builder: (context, state) {
               if (state is AuthLoading) {
                 return Loader();
               }
+              if (state is AuthSignUpSuccess) return Loader();
+
               return Form(
                 key: formKey,
                 child: Column(
@@ -104,7 +109,7 @@ class _SignupPageState extends State<SignupPage> {
                               text: "Sign In",
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(
-                                    color: AppPallete.gradient1,
+                                    color: AppPallete.secondaryColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),

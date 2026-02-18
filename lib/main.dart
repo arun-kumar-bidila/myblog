@@ -4,9 +4,11 @@ import 'package:myblog/core/cubits/app_user/app_user_cubit.dart';
 import 'package:myblog/core/theme/theme.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/auth/presentation/pages/login_page.dart';
+
 import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:myblog/features/blog/presentation/pages/blog_page.dart';
 import 'package:myblog/init_dependencies.dart';
+import 'package:myblog/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,15 +47,16 @@ class _MyAppState extends State<MyApp> {
       title: 'MyBlog',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkThemeMode,
-      home: BlocSelector<AppUserCubit, AppUserState, bool>(
-        selector: (state) {
-          return state is AppUserLoggedIn;
-        },
-        builder: (context, isLoggedIn) {
-          if (isLoggedIn) {
+      home: BlocBuilder<AppUserCubit, AppUserState>(
+        
+        builder: (context, state) {
+          if (state is AppUserInitial) {
+            return SplashScreen();
+          } else if ( state is AppUserLoggedIn) {
             return BlogPage();
           } else {
             return LoginPage();
+           
           }
         },
       ),
