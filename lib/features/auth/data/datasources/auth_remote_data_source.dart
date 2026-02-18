@@ -88,6 +88,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> getUserData() async {
     try {
+
+     
+
       final token = await storage.read(key: "token");
 
       dio.options.headers["Authorization"] = "Bearer $token";

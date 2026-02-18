@@ -9,7 +9,6 @@ import 'package:myblog/core/theme/app_pallete.dart';
 import 'package:myblog/core/utils/pick_image.dart';
 import 'package:myblog/core/utils/show_snackbar.dart';
 import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
-import 'package:myblog/features/blog/presentation/pages/blog_page.dart';
 import 'package:myblog/features/blog/presentation/widgets/blog_editor.dart';
 
 class AddNewBlog extends StatefulWidget {
@@ -39,9 +38,9 @@ class _AddNewBlogState extends State<AddNewBlog> {
 
   @override
   void dispose() {
-    super.dispose();
     titleController.dispose();
     contentController.dispose();
+     super.dispose();
   }
 
   void uploadBlog() {
@@ -79,11 +78,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
           if (state is BlogFailure) {
             showSnackBar(context, state.message);
           } else if (state is BlogUploadSuccess) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              BlogPage.route(),
-              (route) => false,
-            );
+            Navigator.pop(context,true);
           }
         },
         builder: (context, state) {

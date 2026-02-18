@@ -39,8 +39,16 @@ class _BlogPageState extends State<BlogPage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.push(context, AddNewBlog.route());
+            onPressed: () async {
+              final blogBloc = context.read<BlogBloc>();
+              final blogAdded = await Navigator.push(
+                context,
+                AddNewBlog.route(),
+              );
+              if (!mounted) return;
+              if (blogAdded == true) {
+                blogBloc.add(BlogFetchAll());
+              }
             },
             icon: Icon(CupertinoIcons.add_circled),
           ),
