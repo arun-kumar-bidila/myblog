@@ -38,9 +38,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // create router with AppUserCubit reference
-    _router = createRouter(context.read<AppUserCubit>());
-    context.read<AuthBloc>().add(IsUserLoggedIn());
+  
+    _router = createRouter(
+      serviceLocator<AppUserCubit>(),
+    ); 
+    serviceLocator<AuthBloc>().add(IsUserLoggedIn());
   }
 
   @override
@@ -49,7 +51,7 @@ class _MyAppState extends State<MyApp> {
       title: 'MyBlog',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkThemeMode,
-      routerConfig: _router, 
+      routerConfig: _router,
     );
   }
 }

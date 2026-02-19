@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myblog/core/common/loader.dart';
 import 'package:myblog/core/cubits/app_user/app_user_cubit.dart';
 import 'package:myblog/core/theme/app_pallete.dart';
@@ -12,7 +13,6 @@ import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:myblog/features/blog/presentation/widgets/blog_editor.dart';
 
 class AddNewBlog extends StatefulWidget {
-  static Route route() => MaterialPageRoute(builder: (context) => AddNewBlog());
   const AddNewBlog({super.key});
 
   @override
@@ -40,7 +40,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
   void dispose() {
     titleController.dispose();
     contentController.dispose();
-     super.dispose();
+    super.dispose();
   }
 
   void uploadBlog() {
@@ -78,7 +78,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
           if (state is BlogFailure) {
             showSnackBar(context, state.message);
           } else if (state is BlogUploadSuccess) {
-            Navigator.pop(context,true);
+            context.pop(true);
           }
         },
         builder: (context, state) {

@@ -1,10 +1,11 @@
-
 import 'package:go_router/go_router.dart';
 import 'package:myblog/core/cubits/app_user/app_user_cubit.dart';
 import 'package:myblog/core/router/go_router_refresh_stream.dart';
 import 'package:myblog/features/auth/presentation/pages/login_page.dart';
 import 'package:myblog/features/auth/presentation/pages/signup_page.dart';
+import 'package:myblog/features/blog/presentation/pages/add_new_blog.dart';
 import 'package:myblog/features/blog/presentation/pages/blog_page.dart';
+import 'package:myblog/features/profile/presentation/pages/profile_page.dart';
 import 'package:myblog/splash_screen.dart';
 
 GoRouter createRouter(AppUserCubit appUserCubit) {
@@ -15,51 +16,39 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
     refreshListenable: GoRouterRefreshStream(appUserCubit.stream),
 
     redirect: (context, state) {
+      print(
+        'REDIRECT FIRED — location: ${state.matchedLocation}, authState: ${appUserCubit.state}',
+      );
       final authState = appUserCubit.state;
       final location = state.matchedLocation;
 
-      // still checking auth — stay on splash
+      final isAuthPage = location == '/login' || location == '/signup';
+
+
+      final isSplash = location == '/splash';
+
       if (authState is AppUserInitial) {
-        return '/splash';
+        return isSplash ? null : '/splash';
       }
 
-      // logged in — go to blog
-      if (authState is AppUserLoggedIn) {
-        if (location == '/splash' ||
-            location == '/login' ||
-            location == '/signup') {
-          return '/blog'; // auto redirect
-        }
+      if (authState is AppUserLoggedIn && isAuthPage) {
+        return '/blog';
       }
 
-      // logged out — go to login
-      if (authState is AppUserLoggedOut) {
-        if (location == '/splash' ||
-            location == '/blog') {
-          return '/login'; //  auto redirect
-        }
+      if (authState is AppUserLoggedOut && !isAuthPage  ) {
+        return '/login';
       }
 
-      return null; // no redirect needed
+      return null;
     },
 
     routes: [
-      GoRoute(
-        path: '/splash',
-        builder: (context, state) => SplashScreen(),
-      ),
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => LoginPage(),
-      ),
-      GoRoute(
-        path: '/signup',
-        builder: (context, state) => SignupPage(),
-      ),
-      GoRoute(
-        path: '/blog',
-        builder: (context, state) => BlogPage(),
-      ),
+      GoRoute(path: '/splash', builder: (context, state) => SplashScreen()),
+      GoRoute(path: '/login', builder: (context, state) => LoginPage()),
+      GoRoute(path: '/signup', builder: (context, state) => SignupPage()),
+      GoRoute(path: '/blog', builder: (context, state) => BlogPage()),
+      GoRoute(path: '/add-blog', builder: (context, state) => AddNewBlog()),
+      GoRoute(path: '/profile', builder: (context, state) => ProfilePage()),
     ],
   );
 }

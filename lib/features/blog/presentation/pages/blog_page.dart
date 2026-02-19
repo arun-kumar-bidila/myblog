@@ -1,16 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myblog/core/common/loader.dart';
 import 'package:myblog/core/theme/app_pallete.dart';
 import 'package:myblog/core/utils/show_snackbar.dart';
-import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
-import 'package:myblog/features/blog/presentation/pages/add_new_blog.dart';
 import 'package:myblog/features/blog/presentation/widgets/blog_card.dart';
 
 class BlogPage extends StatefulWidget {
-  static Route route() => MaterialPageRoute(builder: (context) => BlogPage());
   const BlogPage({super.key});
 
   @override
@@ -38,19 +36,15 @@ class _BlogPageState extends State<BlogPage> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            context.read<AuthBloc>().add(AuthUserLogOut());
-            // Navigator.push(context, SignupPage.route());
+            context.go("/profile");
           },
-          icon: Icon(Icons.logout, color: AppPallete.whiteColor),
+          icon: Icon(Icons.person, color: AppPallete.whiteColor),
         ),
         actions: [
           IconButton(
             onPressed: () async {
               final blogBloc = context.read<BlogBloc>();
-              final blogAdded = await Navigator.push(
-                context,
-                AddNewBlog.route(),
-              );
+              final blogAdded = await context.push("/add-blog");
               if (!mounted) return;
               if (blogAdded == true) {
                 blogBloc.add(BlogFetchAll());
@@ -79,10 +73,7 @@ class _BlogPageState extends State<BlogPage> {
               itemBuilder: (context, index) {
                 final blog = state.blogs[index];
 
-                return BlogCard(
-                  blog: blog,
-                  
-                );
+                return BlogCard(blog: blog);
               },
             );
           }
