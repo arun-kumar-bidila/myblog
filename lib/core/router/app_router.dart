@@ -23,7 +23,7 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
       final authState = appUserCubit.state;
       final location = state.matchedLocation;
 
-      final isAuthPage = location == '/login' || location == '/signup';
+      final isPublic = location == '/login' || location == '/signup' || location =='/splash';
 
 
       final isSplash = location == '/splash';
@@ -32,11 +32,11 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
         return isSplash ? null : '/splash';
       }
 
-      if (authState is AppUserLoggedIn && isAuthPage) {
+      if (authState is AppUserLoggedIn && isPublic ) {
         return '/blog';
       }
 
-      if (authState is AppUserLoggedOut && !isAuthPage  ) {
+      if (authState is AppUserLoggedOut && !isPublic  ) {
         return '/login';
       }
 
