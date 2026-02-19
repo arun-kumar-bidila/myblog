@@ -38,7 +38,7 @@ class _BlogPageState extends State<BlogPage> {
           onPressed: () {
             context.go("/profile");
           },
-          icon: Icon(Icons.person, color: AppPallete.whiteColor),
+          icon: Icon(Icons.account_circle_rounded, color: AppPallete.whiteColor,size: 30),
         ),
         actions: [
           IconButton(
@@ -52,7 +52,8 @@ class _BlogPageState extends State<BlogPage> {
             },
             icon: Icon(
               CupertinoIcons.add_circled_solid,
-              color: AppPallete.whiteColor,
+              color: AppPallete.secondaryColor,
+              size: 30,
             ),
           ),
         ],
@@ -69,7 +70,7 @@ class _BlogPageState extends State<BlogPage> {
             return Loader();
           } else if (state is BlogDisplaySuccess) {
             return ListView.builder(
-              padding: EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(top: 24,left:16,right: 16 ),
               itemCount: state.blogs.length,
               itemBuilder: (context, index) {
                 final blog = state.blogs[index];
