@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myblog/core/common/loader.dart';
 import 'package:myblog/core/theme/app_pallete.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -11,8 +12,15 @@ class SplashScreen extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         color: AppPallete.splashScreenColor,
-        child: Center(
-          child: Image.asset("assets/logo.png", fit: BoxFit.contain),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Image.asset("assets/logo.png", fit: BoxFit.contain),
+            ),
+            SizedBox(height: 40),
+            Loader(),
+          ],
         ),
       ),
     );

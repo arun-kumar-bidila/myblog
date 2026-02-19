@@ -39,6 +39,7 @@ final class AuthUserFetchSuccess extends AuthState {
 final class AuthUserFetchFailure extends AuthState {}
 
 final class AuthLogOutSuccess extends AuthState {}
+final class AuthLogOutLoading extends AuthState {}
 
 final class AuthLogOutFailure extends AuthState {
   final String message;

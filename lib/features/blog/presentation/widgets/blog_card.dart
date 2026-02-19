@@ -1,73 +1,105 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myblog/core/theme/app_pallete.dart';
 import 'package:myblog/core/utils/calcute_reading_time.dart';
 import 'package:myblog/features/blog/domain/entitites/blog.dart';
-import 'package:myblog/features/blog/presentation/pages/blog_viewer_page.dart';
 
 class BlogCard extends StatelessWidget {
   final Blog blog;
-  final Color color;
-  const BlogCard({super.key, required this.blog, required this.color});
+
+  const BlogCard({super.key, required this.blog});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, BlogViewerPage.route(blog));
+        context.push( "/blog-viewer", extra: blog);
       },
       child: Container(
-        height: 200,
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.all(12),
+        height: 300,
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        // padding: EdgeInsets.all(12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppPallete.borderColor, width: 2),
-          color: color,
+          // color: color,
         ),
         child: Column(
-          crossAxisAlignment: .start,
-          mainAxisAlignment: .spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: .start,
-              children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: blog.selectedTopics
-                        .map(
-                          (e) => Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Chip(label: Text(e)),
-                          ),
-                        )
-                        .toList(),
-                  ),
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                child: Image.network(
+                  blog.imageUrl!,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
                 ),
-                SizedBox(height: 16),
-
-                Text(
-                  blog.title,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: .end,
-              children: [
-                Text(
-                 " ${calculateReadingTime(blog.content)} min",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppPallete.whiteColor,
-                    fontWeight: FontWeight.w400,
-                  ),
+
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(16),
                 ),
-              ],
+              ),
+              child: Column(
+                crossAxisAlignment: .start,
+                children: [
+                  Row(
+                    mainAxisAlignment: .spaceBetween,
+                    children: [
+                      Text(
+                        blog.title,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: AppPallete.whiteColor,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+
+                      Text(
+                        " ${calculateReadingTime(blog.content)} min",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppPallete.whiteColor,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4,),
+
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: blog.selectedTopics
+                          .map(
+                            (e) => Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Chip(
+                                label: Text(
+                                  e,
+                                  style: TextStyle(
+                                    color: AppPallete.blackColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                backgroundColor: AppPallete.secondaryColor,
+                                side: BorderSide.none,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

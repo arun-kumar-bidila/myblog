@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:myblog/core/theme/app_pallete.dart';
 
 class Loader extends StatelessWidget {
@@ -7,9 +8,10 @@ class Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CircularProgressIndicator(
+      child: SpinKitThreeBounce(
         color: AppPallete.secondaryColor,
-        strokeWidth: 5,
+        size: 30,
+       
       ),
     );
   }
