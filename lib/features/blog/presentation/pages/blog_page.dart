@@ -51,11 +51,12 @@ class _BlogPageState extends State<BlogPage> {
               }
             },
             icon: Icon(
-              CupertinoIcons.add_circled,
+              CupertinoIcons.add_circled_solid,
               color: AppPallete.whiteColor,
             ),
           ),
         ],
+        scrolledUnderElevation: 0,
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
         listener: (context, state) {

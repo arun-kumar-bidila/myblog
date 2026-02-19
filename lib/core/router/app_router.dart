@@ -17,26 +17,29 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
     refreshListenable: GoRouterRefreshStream(appUserCubit.stream),
 
     redirect: (context, state) {
-      print(
-        'REDIRECT FIRED — location: ${state.matchedLocation}, authState: ${appUserCubit.state}',
-      );
+      // print(
+      //   'REDIRECT FIRED — location: ${state.matchedLocation}, authState: ${appUserCubit.state}',
+      // );
       final authState = appUserCubit.state;
       final location = state.matchedLocation;
 
-      final isPublic = location == '/login' || location == '/signup' || location =='/splash';
+      final isPublic =
+          location == '/login' ||
+          location == '/signup' ||
+          location == '/splash';
 
-
+      final isAuth = location == '/login' || location == '/signup';
       final isSplash = location == '/splash';
 
       if (authState is AppUserInitial) {
         return isSplash ? null : '/splash';
       }
 
-      if (authState is AppUserLoggedIn && isPublic ) {
+      if (authState is AppUserLoggedIn && isPublic) {
         return '/blog';
       }
 
-      if (authState is AppUserLoggedOut && !isPublic  ) {
+      if (authState is AppUserLoggedOut && !isAuth) {
         return '/login';
       }
 
@@ -50,11 +53,13 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
       GoRoute(path: '/blog', builder: (context, state) => BlogPage()),
       GoRoute(path: '/add-blog', builder: (context, state) => AddNewBlog()),
       GoRoute(path: '/profile', builder: (context, state) => ProfilePage()),
-      GoRoute(path: '/blog-viewer',builder: (context, state) {
-        final blog = state.extra;
-        return BlogViewerPage(extra: blog);  
-      },
-      )
+      GoRoute(
+        path: '/blog-viewer',
+        builder: (context, state) {
+          final blog = state.extra;
+          return BlogViewerPage(extra: blog);
+        },
+      ),
     ],
   );
 }
