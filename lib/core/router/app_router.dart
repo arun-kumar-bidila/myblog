@@ -5,6 +5,7 @@ import 'package:myblog/features/auth/presentation/pages/login_page.dart';
 import 'package:myblog/features/auth/presentation/pages/signup_page.dart';
 import 'package:myblog/features/blog/presentation/pages/add_new_blog.dart';
 import 'package:myblog/features/blog/presentation/pages/blog_page.dart';
+import 'package:myblog/features/blog/presentation/pages/blog_viewer_page.dart';
 import 'package:myblog/features/profile/presentation/pages/profile_page.dart';
 import 'package:myblog/splash_screen.dart';
 
@@ -49,6 +50,11 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
       GoRoute(path: '/blog', builder: (context, state) => BlogPage()),
       GoRoute(path: '/add-blog', builder: (context, state) => AddNewBlog()),
       GoRoute(path: '/profile', builder: (context, state) => ProfilePage()),
+      GoRoute(path: '/blog-viewer',builder: (context, state) {
+        final blog = state.extra;
+        return BlogViewerPage(extra: blog);  
+      },
+      )
     ],
   );
 }

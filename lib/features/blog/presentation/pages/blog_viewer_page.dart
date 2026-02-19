@@ -4,13 +4,15 @@ import 'package:myblog/core/utils/format_date.dart';
 import 'package:myblog/features/blog/domain/entitites/blog.dart';
 
 class BlogViewerPage extends StatelessWidget {
-  final Blog blog;
-  static Route route(Blog blog) =>
-      MaterialPageRoute(builder: (_) => BlogViewerPage(blog: blog));
-  const BlogViewerPage({super.key, required this.blog});
+  final Object? extra;
+  // static Route route(Blog blog) =>
+  //     MaterialPageRoute(builder: (_) => BlogViewerPage(blog: blog));
+  const BlogViewerPage({super.key, required this.extra});
 
   @override
   Widget build(BuildContext context) {
+    final blog = extra as Blog;
+
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -30,10 +32,13 @@ class BlogViewerPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-            
+
                   Text(
                     "Published on : ${formatDate(blog.updated)}",
-                    style: TextStyle(fontSize: 12, color: AppPallete.whiteColor),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppPallete.whiteColor,
+                    ),
                   ),
                   SizedBox(height: 16),
                   ClipRRect(
@@ -44,7 +49,7 @@ class BlogViewerPage extends StatelessWidget {
                       fit: BoxFit.contain,
                     ),
                   ),
-            
+
                   SizedBox(height: 16),
                   Text(
                     blog.content,
