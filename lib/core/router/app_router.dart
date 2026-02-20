@@ -1,6 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:myblog/common/cubits/app_user/app_user_cubit.dart';
 import 'package:myblog/core/router/go_router_refresh_stream.dart';
+import 'package:myblog/features/auth/presentation/pages/enter_code_page.dart';
+import 'package:myblog/features/auth/presentation/pages/forgot_password_page.dart';
+import 'package:myblog/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:myblog/features/auth/presentation/pages/login_page.dart';
 import 'package:myblog/features/auth/presentation/pages/signup_page.dart';
 import 'package:myblog/features/blog/presentation/pages/add_new_blog.dart';
@@ -27,9 +30,15 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
       final isPublic =
           location == '/login' ||
           location == '/signup' ||
-          location == '/splash';
+          location == '/splash' ||
+          location == '/forgot-password';
 
-      final isAuth = location == '/login' || location == '/signup';
+      final isAuth =
+          location == '/login' ||
+          location == '/signup' ||
+          location == '/forgot-password' ||
+          location == '/enter-code' ||
+          location == '/reset-password';
       final isSplash = location == '/splash';
 
       if (authState is AppUserInitial) {
@@ -51,6 +60,18 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
       GoRoute(path: '/splash', builder: (context, state) => SplashScreen()),
       GoRoute(path: '/login', builder: (context, state) => LoginPage()),
       GoRoute(path: '/signup', builder: (context, state) => SignupPage()),
+      GoRoute(
+        path: '/forgot-password',
+        builder: (context, state) => ForgotPasswordPage(),
+      ),
+      GoRoute(
+        path: '/enter-code',
+        builder: (context, state) => EnterCodePage(),
+      ),
+      GoRoute(
+        path: '/reset-password',
+        builder: (context, state) => ResetPasswordPage(),
+      ),
       GoRoute(path: '/blog', builder: (context, state) => BlogPage()),
       GoRoute(path: '/add-blog', builder: (context, state) => AddNewBlog()),
       GoRoute(path: '/profile', builder: (context, state) => ProfilePage()),
