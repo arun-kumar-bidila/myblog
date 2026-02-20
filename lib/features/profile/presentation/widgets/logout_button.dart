@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myblog/core/theme/app_pallete.dart';
+import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 
 class LogoutButton extends StatelessWidget {
@@ -22,7 +22,7 @@ class LogoutButton extends StatelessWidget {
         child:  Center(
           child: Text(
             "Logout",
-            style: TextStyle(color: AppPallete.whiteColor, fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(color: AppPallete.whiteColor, fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
       ),

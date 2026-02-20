@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myblog/core/common/loader.dart';
-import 'package:myblog/core/theme/app_pallete.dart';
+import 'package:myblog/common/widgets/loader.dart';
+import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/core/utils/show_snackbar.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_field.dart';

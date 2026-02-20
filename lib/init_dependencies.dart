@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:myblog/core/cubits/app_user/app_user_cubit.dart';
+import 'package:myblog/common/cubits/app_user/app_user_cubit.dart';
 import 'package:myblog/core/network/connection_checker.dart';
 import 'package:myblog/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:myblog/features/auth/data/repository/auth_repository_impl.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myblog/core/cubits/app_user/app_user_cubit.dart';
+import 'package:myblog/common/cubits/app_user/app_user_cubit.dart';
 import 'package:myblog/core/router/app_router.dart';
-import 'package:myblog/core/theme/theme.dart';
+import 'package:myblog/common/theme/theme.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:myblog/init_dependencies.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myblog/core/theme/app_pallete.dart';
+import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/core/utils/calcute_reading_time.dart';
 import 'package:myblog/features/blog/domain/entitites/blog.dart';
 

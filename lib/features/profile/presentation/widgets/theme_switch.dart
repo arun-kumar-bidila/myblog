@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myblog/core/theme/app_pallete.dart';
+import 'package:myblog/common/theme/app_pallete.dart';
 
 class ThemeSwitch extends StatelessWidget {
   const ThemeSwitch({super.key});

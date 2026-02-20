@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:myblog/common/theme/app_pallete.dart';
 
-class AuthField extends StatefulWidget {
+class CommonTextField extends StatelessWidget {
   final String hintText;
-  final bool isObscureText;
   final TextEditingController controller;
-
-  const AuthField({
+  final bool obscureText;
+  const CommonTextField({
     super.key,
     required this.hintText,
     required this.controller,
-    this.isObscureText = false,
+    this.obscureText = false,
   });
 
   @override
-  State<AuthField> createState() => _AuthFieldState();
-}
-
-class _AuthFieldState extends State<AuthField> {
-  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: widget.controller,
-      obscureText: widget.isObscureText,
+      obscureText: obscureText,
       decoration: InputDecoration(
-        hintText: widget.hintText,
+        hintText: hintText,
         hintStyle: TextStyle(color: AppPallete.greyColor),
       ),
       cursorColor: AppPallete.secondaryColor,
       validator: (value) {
         if (value!.isEmpty) {
-          return "Please enter ${widget.hintText}";
+          return "Please Enter $hintText";
         } else {
           return null;
         }

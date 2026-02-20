@@ -3,7 +3,7 @@ import 'package:myblog/core/error/exceptions.dart';
 import 'package:myblog/core/error/failure.dart';
 import 'package:myblog/core/network/connection_checker.dart';
 import 'package:myblog/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:myblog/core/entites/user.dart';
+import 'package:myblog/common/entites/user.dart';
 import 'package:myblog/features/auth/data/models/user_model.dart';
 import 'package:myblog/features/auth/domain/repository/auth_repository.dart';
 

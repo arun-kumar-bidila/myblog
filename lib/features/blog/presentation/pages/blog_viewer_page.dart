@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myblog/core/theme/app_pallete.dart';
+import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/core/utils/format_date.dart';
 import 'package:myblog/features/blog/domain/entitites/blog.dart';
 

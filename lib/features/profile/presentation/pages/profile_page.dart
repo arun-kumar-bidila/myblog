@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myblog/core/common/loader.dart';
-import 'package:myblog/core/cubits/app_user/app_user_cubit.dart';
-import 'package:myblog/core/theme/app_pallete.dart';
+import 'package:myblog/common/widgets/loader.dart';
+import 'package:myblog/common/cubits/app_user/app_user_cubit.dart';
+import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/core/utils/show_snackbar.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:myblog/features/blog/presentation/widgets/blog_card.dart';
-import 'package:myblog/features/profile/presentation/widgets/edit_info_button.dart';
+import 'package:myblog/features/profile/presentation/widgets/edit_password_button.dart';
 import 'package:myblog/features/profile/presentation/widgets/logout_button.dart';
 import 'package:myblog/features/profile/presentation/widgets/profile_feature.dart';
 import 'package:myblog/features/profile/presentation/widgets/theme_switch.dart';
@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ],
                         ),
-                    
+
                         SizedBox(height: 30),
                         Container(
                           width: double.infinity,
@@ -159,7 +159,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                               ),
-                    
+
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
@@ -192,7 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         SizedBox(height: 30),
-                    
+
                         if (opted == "Info") ...[
                           ProfileFeature(
                             icon: Icons.person_pin,
@@ -207,16 +207,20 @@ class _ProfilePageState extends State<ProfilePage> {
                           EditInfoButton(
                             icon: Icons.edit_square,
                             label: "Edit Personal Info",
-                            onTap: () {},
+                            onTap: () {
+                              context.push("/edit-info");
+                            },
                           ),
                           EditInfoButton(
                             icon: Icons.visibility_off_rounded,
                             label: "Change Password",
-                            onTap: () {},
+                            onTap: () {
+                              context.push("/change-password");
+                            },
                           ),
-                    
+
                           ThemeSwitch(),
-                         SizedBox(height: 50,),
+                          SizedBox(height: 50),
                           LogoutButton(),
                         ],
                         if (opted == "Blogs") ...[
@@ -224,7 +228,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             builder: (context, state) {
                               if (state is BlogDisplaySuccess) {
                                 final blogs = state.blogs;
-                    
+
                                 return ListView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
@@ -235,7 +239,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   },
                                 );
                               }
-                    
+
                               return Loader();
                             },
                           ),
