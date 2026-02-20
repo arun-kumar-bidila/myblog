@@ -1,11 +1,16 @@
 import 'package:go_router/go_router.dart';
-import 'package:myblog/core/cubits/app_user/app_user_cubit.dart';
+import 'package:myblog/common/cubits/app_user/app_user_cubit.dart';
 import 'package:myblog/core/router/go_router_refresh_stream.dart';
+import 'package:myblog/features/auth/presentation/pages/enter_code_page.dart';
+import 'package:myblog/features/auth/presentation/pages/forgot_password_page.dart';
+import 'package:myblog/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:myblog/features/auth/presentation/pages/login_page.dart';
 import 'package:myblog/features/auth/presentation/pages/signup_page.dart';
 import 'package:myblog/features/blog/presentation/pages/add_new_blog.dart';
 import 'package:myblog/features/blog/presentation/pages/blog_page.dart';
 import 'package:myblog/features/blog/presentation/pages/blog_viewer_page.dart';
+import 'package:myblog/features/profile/presentation/pages/change_password.dart';
+import 'package:myblog/features/profile/presentation/pages/edit_info.dart';
 import 'package:myblog/features/profile/presentation/pages/profile_page.dart';
 import 'package:myblog/splash_screen.dart';
 
@@ -13,30 +18,38 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
   return GoRouter(
     initialLocation: '/splash',
 
-    //  watches AppUserCubit — triggers redirect on every state change
     refreshListenable: GoRouterRefreshStream(appUserCubit.stream),
 
     redirect: (context, state) {
-      print(
-        'REDIRECT FIRED — location: ${state.matchedLocation}, authState: ${appUserCubit.state}',
-      );
+      // print(
+      //   'REDIRECT FIRED — location: ${state.matchedLocation}, authState: ${appUserCubit.state}',
+      // );
       final authState = appUserCubit.state;
       final location = state.matchedLocation;
 
-      final isPublic = location == '/login' || location == '/signup' || location =='/splash';
+      final isPublic =
+          location == '/login' ||
+          location == '/signup' ||
+          location == '/splash' ||
+          location == '/forgot-password';
 
-
+      final isAuth =
+          location == '/login' ||
+          location == '/signup' ||
+          location == '/forgot-password' ||
+          location == '/enter-code' ||
+          location == '/reset-password';
       final isSplash = location == '/splash';
 
       if (authState is AppUserInitial) {
         return isSplash ? null : '/splash';
       }
 
-      if (authState is AppUserLoggedIn && isPublic ) {
+      if (authState is AppUserLoggedIn && isPublic) {
         return '/blog';
       }
 
-      if (authState is AppUserLoggedOut && !isPublic  ) {
+      if (authState is AppUserLoggedOut && !isAuth) {
         return '/login';
       }
 
@@ -47,14 +60,33 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
       GoRoute(path: '/splash', builder: (context, state) => SplashScreen()),
       GoRoute(path: '/login', builder: (context, state) => LoginPage()),
       GoRoute(path: '/signup', builder: (context, state) => SignupPage()),
+      GoRoute(
+        path: '/forgot-password',
+        builder: (context, state) => ForgotPasswordPage(),
+      ),
+      GoRoute(
+        path: '/enter-code',
+        builder: (context, state) => EnterCodePage(),
+      ),
+      GoRoute(
+        path: '/reset-password',
+        builder: (context, state) => ResetPasswordPage(),
+      ),
       GoRoute(path: '/blog', builder: (context, state) => BlogPage()),
       GoRoute(path: '/add-blog', builder: (context, state) => AddNewBlog()),
       GoRoute(path: '/profile', builder: (context, state) => ProfilePage()),
-      GoRoute(path: '/blog-viewer',builder: (context, state) {
-        final blog = state.extra;
-        return BlogViewerPage(extra: blog);  
-      },
-      )
+      GoRoute(path: '/edit-info', builder: (context, state) => EditInfo()),
+      GoRoute(
+        path: '/blog-viewer',
+        builder: (context, state) {
+          final blog = state.extra;
+          return BlogViewerPage(extra: blog);
+        },
+      ),
+      GoRoute(
+        path: '/change-password',
+        builder: (context, state) => ChangePassword(),
+      ),
     ],
   );
 }

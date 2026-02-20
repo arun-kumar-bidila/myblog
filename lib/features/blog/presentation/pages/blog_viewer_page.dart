@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myblog/core/theme/app_pallete.dart';
+import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/core/utils/format_date.dart';
 import 'package:myblog/features/blog/domain/entitites/blog.dart';
 
@@ -9,14 +9,21 @@ class BlogViewerPage extends StatelessWidget {
   //     MaterialPageRoute(builder: (_) => BlogViewerPage(blog: blog));
   const BlogViewerPage({super.key, required this.extra});
 
+
   @override
   Widget build(BuildContext context) {
+    
+  final controller = ScrollController();
     final blog = extra as Blog;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+      ),
       body: SafeArea(
+        
         child: Scrollbar(
+          controller: controller,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),

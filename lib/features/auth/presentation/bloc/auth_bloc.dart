@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:myblog/core/cubits/app_user/app_user_cubit.dart';
-import 'package:myblog/core/usecase/usecase.dart';
-import 'package:myblog/core/entites/user.dart';
+import 'package:myblog/common/cubits/app_user/app_user_cubit.dart';
+import 'package:myblog/common/usecase/usecase.dart';
+import 'package:myblog/common/entites/user.dart';
 import 'package:myblog/features/auth/domain/usecases/get_user.dart';
 import 'package:myblog/features/auth/domain/usecases/user_login.dart';
 import 'package:myblog/features/auth/domain/usecases/user_logout.dart';
@@ -43,7 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     res.fold((l) => emit(AuthLogOutFailure(l.message)), (r) {
       _appUserCubit.updateUser(null);
-      emit(AuthLogOutSuccess());
+      emit(AuthLogOutSuccess(r));
     });
   }
 

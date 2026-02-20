@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myblog/core/usecase/usecase.dart';
+import 'package:myblog/common/usecase/usecase.dart';
 import 'package:myblog/features/blog/domain/entitites/blog.dart';
 import 'package:myblog/features/blog/domain/usecases/get_all_blogs.dart';
 import 'package:myblog/features/blog/domain/usecases/upload_blog.dart';
