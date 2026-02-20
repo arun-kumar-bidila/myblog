@@ -6,7 +6,7 @@ class GoRouterRefreshStream extends ChangeNotifier {
 
   GoRouterRefreshStream(Stream stream) {
     _subscription = stream.asBroadcastStream().listen((_) {
-      notifyListeners(); //  triggers GoRouter redirect on every state change
+      notifyListeners(); 
     });
   }
 

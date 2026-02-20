@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:myblog/core/theme/app_pallete.dart';
+import 'package:myblog/common/theme/app_pallete.dart';
 
 class Loader extends StatelessWidget {
   const Loader({super.key});

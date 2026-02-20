@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myblog/core/theme/app_pallete.dart';
+import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/core/utils/calcute_reading_time.dart';
 import 'package:myblog/features/blog/domain/entitites/blog.dart';
 
@@ -17,8 +17,8 @@ class BlogCard extends StatelessWidget {
       },
       child: Container(
         height: 300,
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        // padding: EdgeInsets.all(12),
+       
+        
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppPallete.borderColor, width: 2),
@@ -38,7 +38,7 @@ class BlogCard extends StatelessWidget {
             ),
 
             Container(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(16),

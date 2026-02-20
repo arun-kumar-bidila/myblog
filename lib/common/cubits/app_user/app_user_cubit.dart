@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myblog/core/entites/user.dart';
+import 'package:myblog/common/entites/user.dart';
 
 part 'app_user_state.dart';
 

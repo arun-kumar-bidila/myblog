@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myblog/core/common/loader.dart';
-import 'package:myblog/core/theme/app_pallete.dart';
+import 'package:myblog/common/widgets/loader.dart';
+import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/core/utils/show_snackbar.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_gradient_button.dart';
 
 class LoginPage extends StatefulWidget {
-
   const LoginPage({super.key});
 
   @override
@@ -46,7 +45,9 @@ class _LoginPageState extends State<LoginPage> {
               }
             },
             buildWhen: (previous, current) =>
-                current is AuthLoading || current is AuthInitial || current is AuthLoginFailure,
+                current is AuthLoading ||
+                current is AuthInitial ||
+                current is AuthLoginFailure,
             builder: (context, state) {
               if (state is AuthLoading) {
                 return Loader();
@@ -71,6 +72,24 @@ class _LoginPageState extends State<LoginPage> {
                       hintText: "Password",
                       controller: passwordController,
                       isObscureText: true,
+                    ),
+                    SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            context.push("/forgot-password");
+                          },
+                          child: Text(
+                            "Forgot Password ?",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 15),
                     AuthGradientButton(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myblog/core/theme/app_pallete.dart';
+import 'package:myblog/common/theme/app_pallete.dart';
 
 class AuthGradientButton extends StatefulWidget {
   final String buttonText;
@@ -28,7 +28,7 @@ class _AuthGradientButtonState extends State<AuthGradientButton> {
         ),
         child: Text(
           widget.buttonText,
-          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600,color: AppPallete.whiteColor),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600,color: AppPallete.whiteColor),
         ),
       ),
     );
