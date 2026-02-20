@@ -22,6 +22,7 @@ import 'package:myblog/features/profile/data/datasources/profile_remote_datasour
 import 'package:myblog/features/profile/data/repository/profile_repository_impl.dart';
 import 'package:myblog/features/profile/domain/repository/profile_repository.dart';
 import 'package:myblog/features/profile/domain/usecases/change_password.dart';
+import 'package:myblog/features/profile/domain/usecases/fetch_user_blogs.dart';
 import 'package:myblog/features/profile/presentation/bloc/profile_bloc.dart';
 
 final serviceLocator = GetIt.instance;
@@ -99,7 +100,11 @@ void _initProfile() {
       () => ProfileRepositoryImpl(serviceLocator()),
     )
     ..registerFactory(() => ChangePasswordUseCase(serviceLocator()))
+    ..registerFactory(()=>FetchUserBlogs(serviceLocator()))
     ..registerLazySingleton(
-      () => ProfileBloc(changePasswordUseCase: serviceLocator()),
+      () => ProfileBloc(
+        changePasswordUseCase: serviceLocator(),
+        fetchUserBlogs: serviceLocator(),
+      ),
     );
 }

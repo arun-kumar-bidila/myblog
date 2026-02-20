@@ -11,3 +11,6 @@ final class ProfileChangePassword extends ProfileEvent {
     required this.newPassword,
   });
 }
+
+
+final class ProfileFetchUserBlogs extends ProfileEvent{}

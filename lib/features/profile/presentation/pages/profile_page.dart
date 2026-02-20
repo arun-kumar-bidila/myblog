@@ -6,8 +6,8 @@ import 'package:myblog/common/cubits/app_user/app_user_cubit.dart';
 import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/core/utils/show_snackbar.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:myblog/features/blog/presentation/widgets/blog_card.dart';
+import 'package:myblog/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:myblog/features/profile/presentation/widgets/edit_password_button.dart';
 import 'package:myblog/features/profile/presentation/widgets/logout_button.dart';
 import 'package:myblog/features/profile/presentation/widgets/profile_feature.dart';
@@ -24,6 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+    context.read<ProfileBloc>().add(ProfileFetchUserBlogs());
   }
 
   String opted = "Info";
@@ -204,14 +205,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             label: "Mail",
                             value: user.email,
                           ),
-                          EditInfoButton(
+                          EditInfoPasswordButton(
                             icon: Icons.edit_square,
                             label: "Edit Personal Info",
                             onTap: () {
                               context.push("/edit-info");
                             },
                           ),
-                          EditInfoButton(
+                          EditInfoPasswordButton(
                             icon: Icons.visibility_off_rounded,
                             label: "Change Password",
                             onTap: () {
@@ -224,10 +225,34 @@ class _ProfilePageState extends State<ProfilePage> {
                           LogoutButton(),
                         ],
                         if (opted == "Blogs") ...[
-                          BlocBuilder<BlogBloc, BlogState>(
+                          BlocConsumer<ProfileBloc, ProfileState>(
+                            listener: (context, state) {
+                              if (state is ProfileFetchUserBlogsFailure) {
+                                showSnackBar(context, state.message);
+                              }
+                            },
                             builder: (context, state) {
-                              if (state is BlogDisplaySuccess) {
+                              if (state is ProfileFetchUserBlogsLoading) {
+                                return Loader();
+                              }
+                              if (state is ProfileFetchUserBlogsSuccess) {
                                 final blogs = state.blogs;
+
+                                if (blogs.isEmpty) {
+                                 return Padding(
+                                   padding: const EdgeInsets.only(top: 40.0),
+                                   child: Center(
+                                     child: Text(
+                                        "No blogs yet",
+                                        style: TextStyle(
+                                          color: AppPallete.secondaryColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                   ),
+                                 );
+                                }
 
                                 return ListView.builder(
                                   shrinkWrap: true,

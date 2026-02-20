@@ -11,8 +11,21 @@ final class ProfileChangePasswordSuccess extends ProfileState {
 }
 
 final class ProfileChangePasswordFailure extends ProfileState {
-    final String message;
+  final String message;
   ProfileChangePasswordFailure(this.message);
 }
 
-final class ProfileChangePasswordLoading extends ProfileState{}
+final class ProfileChangePasswordLoading extends ProfileState {}
+
+final class ProfileFetchUserBlogsLoading extends ProfileState {}
+
+final class ProfileFetchUserBlogsFailure extends ProfileState {
+  final String message;
+  ProfileFetchUserBlogsFailure(this.message);
+}
+
+final class ProfileFetchUserBlogsSuccess extends ProfileState {
+  final List<Blog> blogs;
+  ProfileFetchUserBlogsSuccess(this.blogs);
+
+}

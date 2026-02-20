@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:myblog/common/theme/app_pallete.dart';
 
-class EditInfoButton extends StatelessWidget {
+class EditInfoPasswordButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
-  const EditInfoButton({
+  const EditInfoPasswordButton({
     super.key,
     required this.icon,
     required this.label,
