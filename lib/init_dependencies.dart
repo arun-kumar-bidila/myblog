@@ -18,6 +18,11 @@ import 'package:myblog/features/blog/domain/repositores/blog_repository.dart';
 import 'package:myblog/features/blog/domain/usecases/get_all_blogs.dart';
 import 'package:myblog/features/blog/domain/usecases/upload_blog.dart';
 import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:myblog/features/profile/data/datasources/profile_remote_datasource.dart';
+import 'package:myblog/features/profile/data/repository/profile_repository_impl.dart';
+import 'package:myblog/features/profile/domain/repository/profile_repository.dart';
+import 'package:myblog/features/profile/domain/usecases/change_password.dart';
+import 'package:myblog/features/profile/presentation/bloc/profile_bloc.dart';
 
 final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
@@ -37,10 +42,13 @@ Future<void> initDependencies() async {
 
   //core
   serviceLocator.registerLazySingleton(() => AppUserCubit());
-  serviceLocator.registerFactory<ConnectionChecker>(() => ConnectionCheckerImpl(serviceLocator()));
+  serviceLocator.registerFactory<ConnectionChecker>(
+    () => ConnectionCheckerImpl(serviceLocator()),
+  );
 
   _initAuth();
   _initBlog();
+  _initProfile();
 }
 
 void _initAuth() {
@@ -49,7 +57,7 @@ void _initAuth() {
       () => AuthRemoteDataSourceImpl(serviceLocator(), serviceLocator()),
     )
     ..registerFactory<AuthRepository>(
-      () => AuthRepositoryImpl(serviceLocator(),serviceLocator())
+      () => AuthRepositoryImpl(serviceLocator(), serviceLocator()),
     )
     ..registerFactory(() => UserSignup(serviceLocator()))
     ..registerFactory(() => UserLogin(serviceLocator()))
@@ -79,5 +87,19 @@ void _initBlog() {
     ..registerLazySingleton(
       () =>
           BlogBloc(uploadBlog: serviceLocator(), getAllBlogs: serviceLocator()),
+    );
+}
+
+void _initProfile() {
+  serviceLocator
+    ..registerFactory<ProfileRemoteDatasource>(
+      () => ProfileRemoteDatasourceImpl(serviceLocator()),
+    )
+    ..registerFactory<ProfileRepository>(
+      () => ProfileRepositoryImpl(serviceLocator()),
+    )
+    ..registerFactory(() => ChangePasswordUseCase(serviceLocator()))
+    ..registerLazySingleton(
+      () => ProfileBloc(changePasswordUseCase: serviceLocator()),
     );
 }

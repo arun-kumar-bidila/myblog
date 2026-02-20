@@ -6,6 +6,7 @@ import 'package:myblog/core/router/app_router.dart';
 import 'package:myblog/common/theme/theme.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:myblog/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:myblog/init_dependencies.dart';
 
 void main() async {
@@ -19,6 +20,7 @@ void main() async {
         BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
         BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
         BlocProvider(create: (_) => serviceLocator<BlogBloc>()),
+        BlocProvider(create: (_)=>serviceLocator<ProfileBloc>()),
       ],
       child: MyApp(),
     ),

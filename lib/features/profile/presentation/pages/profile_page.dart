@@ -64,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     showSnackBar(context, "LogOut Failure");
                   }
                   if (state is AuthLogOutSuccess) {
-                    showSnackBar(context, "Logged Out Successfully");
+                    showSnackBar(context, state.message);
                   }
                 },
                 buildWhen: (previous, current) =>
