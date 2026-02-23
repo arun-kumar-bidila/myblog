@@ -17,10 +17,12 @@ final class AuthLogin extends AuthEvent {
   AuthLogin({required this.email, required this.password});
 }
 
+final class IsUserLoggedIn extends AuthEvent {}
 
-final class IsUserLoggedIn extends AuthEvent{
-  
+final class AuthUserLogOut extends AuthEvent {}
+
+final class AuthVerifyEmailOtp extends AuthEvent {
+  final String email;
+  final String otp;
+  AuthVerifyEmailOtp({required this.email, required this.otp});
 }
-
-
-final class AuthUserLogOut extends AuthEvent{}

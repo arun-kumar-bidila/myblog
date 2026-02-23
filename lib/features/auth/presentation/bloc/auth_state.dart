@@ -29,6 +29,16 @@ final class AuthSignUpFailure extends AuthState {
   AuthSignUpFailure(this.message);
 }
 
+final class AuthEmailOtpSentSuccess extends AuthState {
+  final String message;
+  AuthEmailOtpSentSuccess(this.message);
+}
+
+final class AuthEmailOtpSentFailure extends AuthState {
+  final String message;
+  AuthEmailOtpSentFailure(this.message);
+}
+
 final class AuthUserFetchSuccess extends AuthState {
   final User user;
   AuthUserFetchSuccess(this.user);

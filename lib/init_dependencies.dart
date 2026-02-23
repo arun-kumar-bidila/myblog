@@ -11,6 +11,7 @@ import 'package:myblog/features/auth/domain/usecases/get_user.dart';
 import 'package:myblog/features/auth/domain/usecases/user_login.dart';
 import 'package:myblog/features/auth/domain/usecases/user_logout.dart';
 import 'package:myblog/features/auth/domain/usecases/user_signup.dart';
+import 'package:myblog/features/auth/domain/usecases/verify_email_otp.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:myblog/features/blog/data/datasources/blog_remote_data_source.dart';
 import 'package:myblog/features/blog/data/repostories/blog_repository_impl.dart';
@@ -64,6 +65,7 @@ void _initAuth() {
     ..registerFactory(() => UserLogin(serviceLocator()))
     ..registerFactory(() => GetUser(serviceLocator()))
     ..registerFactory(() => UserLogout(serviceLocator()))
+    ..registerFactory(()=>VerifyEmailOtp(serviceLocator()))
     ..registerLazySingleton(
       () => AuthBloc(
         userSignUp: serviceLocator(),
@@ -71,6 +73,7 @@ void _initAuth() {
         getUser: serviceLocator(),
         appUserCubit: serviceLocator(),
         userLogout: serviceLocator(),
+        verifyEmailOtp: serviceLocator()
       ),
     );
 }

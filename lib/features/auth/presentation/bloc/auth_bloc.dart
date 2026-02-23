@@ -7,6 +7,7 @@ import 'package:myblog/features/auth/domain/usecases/get_user.dart';
 import 'package:myblog/features/auth/domain/usecases/user_login.dart';
 import 'package:myblog/features/auth/domain/usecases/user_logout.dart';
 import 'package:myblog/features/auth/domain/usecases/user_signup.dart';
+import 'package:myblog/features/auth/domain/usecases/verify_email_otp.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -17,17 +18,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetUser _getUser;
   final AppUserCubit _appUserCubit;
   final UserLogout _userLogout;
+  final VerifyEmailOtp _verifyEmailOtp;
   AuthBloc({
     required UserSignup userSignUp,
     required UserLogin userLogin,
     required GetUser getUser,
     required AppUserCubit appUserCubit,
     required UserLogout userLogout,
+    required VerifyEmailOtp verifyEmailOtp,
   }) : _userSignUp = userSignUp,
        _userLogin = userLogin,
        _getUser = getUser,
        _appUserCubit = appUserCubit,
        _userLogout = userLogout,
+       _verifyEmailOtp = verifyEmailOtp,
 
        super(AuthInitial()) {
     on<AuthSignUp>(_onAuthSignUp);
@@ -35,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLogin>(_onAuthLogin);
     on<IsUserLoggedIn>(_getUserData);
     on<AuthUserLogOut>(_onAuthUserLogOut);
+    on<AuthVerifyEmailOtp>(_onVeriyEmailOtp);
   }
 
   void _onAuthUserLogOut(AuthUserLogOut event, Emitter<AuthState> emit) async {
@@ -74,9 +79,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ),
     );
 
-    res.fold((l) => emit(AuthSignUpFailure(l.message)), (user) {
-      _appUserCubit.updateUser(user);
-      emit(AuthSignUpSuccess(user));
+    res.fold((l) => emit(AuthEmailOtpSentFailure(l.message)), (r) {
+      // _appUserCubit.updateUser(user);
+      emit(AuthEmailOtpSentSuccess(r));
+    });
+  }
+
+  void _onVeriyEmailOtp(
+    AuthVerifyEmailOtp event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoading());
+    final res = await _verifyEmailOtp(
+      VerifyEmailOtpParams(email: event.email, otp: event.otp),
+    );
+
+    res.fold((l) => emit(AuthSignUpFailure(l.message)), (r) {
+      _appUserCubit.updateUser(r);
+      emit(AuthSignUpSuccess(r));
     });
   }
 

@@ -6,6 +6,7 @@ import 'package:myblog/features/auth/presentation/pages/forgot_password_page.dar
 import 'package:myblog/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:myblog/features/auth/presentation/pages/login_page.dart';
 import 'package:myblog/features/auth/presentation/pages/signup_page.dart';
+import 'package:myblog/features/auth/presentation/pages/verify_email.dart';
 import 'package:myblog/features/blog/presentation/pages/add_new_blog.dart';
 import 'package:myblog/features/blog/presentation/pages/blog_page.dart';
 import 'package:myblog/features/blog/presentation/pages/blog_viewer_page.dart';
@@ -28,17 +29,22 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
       final location = state.matchedLocation;
 
       final isPublic =
+          location == '/splash' ||
           location == '/login' ||
           location == '/signup' ||
-          location == '/splash' ||
-          location == '/forgot-password';
+          location == '/verify-otp' ||
+          location == '/forgot-password' ||
+          location == '/enter-code' ||
+          location == '/reset-password';
 
       final isAuth =
           location == '/login' ||
           location == '/signup' ||
+          location == '/verify-email' ||
           location == '/forgot-password' ||
           location == '/enter-code' ||
           location == '/reset-password';
+
       final isSplash = location == '/splash';
 
       if (authState is AppUserInitial) {
@@ -60,6 +66,13 @@ GoRouter createRouter(AppUserCubit appUserCubit) {
       GoRoute(path: '/splash', builder: (context, state) => SplashScreen()),
       GoRoute(path: '/login', builder: (context, state) => LoginPage()),
       GoRoute(path: '/signup', builder: (context, state) => SignupPage()),
+      GoRoute(
+        path: '/verify-email',
+        builder: (context, state) {
+          final email = state.extra as String;
+          return VerifyEmail(email: email);
+        },
+      ),
       GoRoute(
         path: '/forgot-password',
         builder: (context, state) => ForgotPasswordPage(),

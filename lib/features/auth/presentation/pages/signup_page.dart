@@ -9,7 +9,6 @@ import 'package:myblog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:myblog/features/auth/presentation/widgets/auth_gradient_button.dart';
 
 class SignupPage extends StatefulWidget {
-
   const SignupPage({super.key});
 
   @override
@@ -33,7 +32,6 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -45,19 +43,25 @@ class _SignupPageState extends State<SignupPage> {
               child: IntrinsicHeight(
                 child: BlocConsumer<AuthBloc, AuthState>(
                   listener: (context, state) {
-                    if (state is AuthSignUpFailure) {
+                    if (state is AuthEmailOtpSentFailure) {
                       showSnackBar(context, state.message);
-                    } else if (state is AuthSignUpSuccess) {
-                      showSnackBar(context, "Sign Up Success");
+                    } else if (state is AuthEmailOtpSentSuccess) {
+                      showSnackBar(context, state.message);
+                      context.push(
+                        '/verify-email',
+                        extra: emailController.text,
+                      );
                     }
                   },
                   buildWhen: (previous, current) =>
-                      current is AuthLoading || current is AuthInitial || current is AuthSignUpFailure,
+                      current is AuthLoading ||
+                      current is AuthInitial ||
+                      current is AuthEmailOtpSentFailure,
                   builder: (context, state) {
                     if (state is AuthLoading) {
                       return Loader();
                     }
-                          
+
                     return Form(
                       key: formKey,
                       child: Column(
@@ -71,9 +75,15 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                           ),
                           SizedBox(height: 30),
-                          AuthField(hintText: "Name", controller: nameController),
+                          AuthField(
+                            hintText: "Name",
+                            controller: nameController,
+                          ),
                           SizedBox(height: 15),
-                          AuthField(hintText: "Email", controller: emailController),
+                          AuthField(
+                            hintText: "Email",
+                            controller: emailController,
+                          ),
                           SizedBox(height: 15),
                           AuthField(
                             hintText: "Password",
@@ -107,7 +117,9 @@ class _SignupPageState extends State<SignupPage> {
                                 children: [
                                   TextSpan(
                                     text: "Sign In",
-                                    style: Theme.of(context).textTheme.titleMedium
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
                                         ?.copyWith(
                                           color: AppPallete.secondaryColor,
                                           fontWeight: FontWeight.bold,

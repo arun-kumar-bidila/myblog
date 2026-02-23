@@ -4,10 +4,15 @@ import 'package:myblog/core/error/exceptions.dart';
 import 'package:myblog/features/auth/data/models/user_model.dart';
 
 abstract interface class AuthRemoteDataSource {
-  Future<UserModel> signUpWithEmailPassword({
+  Future<String> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
+  });
+
+  Future<UserModel> verifyEmailOtp({
+    required String email,
+    required String otp,
   });
 
   Future<UserModel> loginWithEmailPassword({
@@ -58,7 +63,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> signUpWithEmailPassword({
+  Future<String> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
@@ -67,6 +72,34 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await dio.post(
         "/api/auth/signup",
         data: {"name": name, "email": email, "password": password},
+      );
+
+      if (response.statusCode == 201) {
+        // final data = response.data;
+        // await storage.write(key: "token", value: data["accessToken"]);
+
+        // final token = await storage.read(key: "token");
+
+        // dio.options.headers["Authorization"] = "Bearer $token";
+        // return UserModel.fromJson(data["user"]);
+        return response.data["message"];
+      } else {
+        throw ServerException(response.data["message"]);
+      }
+    }  catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel> verifyEmailOtp({
+    required String email,
+    required String otp,
+  }) async {
+    try {
+      final response = await dio.post(
+        "/api/auth/verifyotp",
+        data: {"email": email, "otp": otp},
       );
 
       if (response.statusCode == 201) {
@@ -80,7 +113,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       } else {
         throw ServerException(response.data["message"]);
       }
-    } on DioException catch (e) {
+    } catch (e) {
       throw ServerException(e.toString());
     }
   }
@@ -88,9 +121,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> getUserData() async {
     try {
-
-     
-
       final token = await storage.read(key: "token");
 
       dio.options.headers["Authorization"] = "Bearer $token";
@@ -109,7 +139,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> userLogOut() async {
     try {
       await storage.write(key: "token", value: "");
-      
     } catch (e) {
       throw ServerException(e.toString());
     }

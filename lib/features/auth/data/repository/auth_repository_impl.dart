@@ -33,7 +33,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> signUpWithEmailPassword({
+  Future<Either<Failure, String>> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
@@ -42,10 +42,30 @@ class AuthRepositoryImpl implements AuthRepository {
       if (await (connectionChecker.isConnected) == false) {
         throw ServerException("No Internet Connection");
       }
-      final user = await remoteDataSource.signUpWithEmailPassword(
+      final res = await remoteDataSource.signUpWithEmailPassword(
         name: name,
         email: email,
         password: password,
+      );
+
+      return right(res);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> verifyEmailOtp({
+    required String email,
+    required String otp,
+  }) async {
+    try {
+      if (await (connectionChecker.isConnected) == false) {
+        throw ServerException("No Internet Connection");
+      }
+      final user = await remoteDataSource.verifyEmailOtp(
+        email: email,
+        otp: otp,
       );
 
       return right(user);
