@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myblog/common/cubits/app_user/app_user_cubit.dart';
+import 'package:myblog/common/theme/theme_cubit.dart';
 import 'package:myblog/core/router/app_router.dart';
 import 'package:myblog/common/theme/theme.dart';
 import 'package:myblog/features/auth/presentation/bloc/auth_bloc.dart';
@@ -20,7 +21,8 @@ void main() async {
         BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
         BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
         BlocProvider(create: (_) => serviceLocator<BlogBloc>()),
-        BlocProvider(create: (_)=>serviceLocator<ProfileBloc>()),
+        BlocProvider(create: (_) => serviceLocator<ProfileBloc>()),
+        BlocProvider(create: (_) => ThemeCubit()),
       ],
       child: MyApp(),
     ),
@@ -40,20 +42,25 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-  
-    _router = createRouter(
-      serviceLocator<AppUserCubit>(),
-    ); 
+
+    _router = createRouter(serviceLocator<AppUserCubit>());
     serviceLocator<AuthBloc>().add(IsUserLoggedIn());
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'MyBlog',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkThemeMode,
-      routerConfig: _router,
+    return BlocBuilder<ThemeCubit, ThemeMode>(
+      builder: (context, themeMode) {
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+
+          theme: AppTheme.lightThemeMode,
+          darkTheme: AppTheme.darkThemeMode,
+          themeMode: themeMode,
+
+          routerConfig: _router,
+        );
+      },
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/common/widgets/common_button.dart';
 import 'package:myblog/common/widgets/common_text_field.dart';
 import 'package:myblog/common/widgets/loader.dart';
@@ -37,16 +36,12 @@ class _ChangePasswordState extends State<ChangePassword> {
           icon: Icon(
             Icons.arrow_back_ios_new_rounded,
             size: 20,
-            color: AppPallete.whiteColor,
+            
           ),
         ),
         title: Text(
           "Change Password",
-          style: TextStyle(
-            fontSize: 16,
-            color: AppPallete.whiteColor,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.titleMedium
         ),
         centerTitle: true,
       ),
@@ -77,12 +72,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                 child: Column(
                   children: [
                     CommonTextField(
-                      hintText: "enter current password",
+                      hintText: "Enter current password",
                       controller: currentPasswordController,
                     ),
                     SizedBox(height: 24),
                     CommonTextField(
-                      hintText: "enter new password",
+                      hintText: "Enter new password",
                       controller: newPasswordController,
                     ),
                     SizedBox(height: 24),

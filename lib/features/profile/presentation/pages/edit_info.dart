@@ -14,16 +14,12 @@ class EditInfo extends StatelessWidget {
           icon: Icon(
             Icons.arrow_back_ios_new_rounded,
             size: 20,
-            color: AppPallete.whiteColor,
+           
           ),
         ),
         title: Text(
           "Edit Personal Info",
-          style: TextStyle(
-            fontSize: 16,
-            color: AppPallete.whiteColor,
-            fontWeight: FontWeight.bold,
-          ),
+           style: Theme.of(context).textTheme.titleMedium
         ),
         centerTitle: true,
       ),

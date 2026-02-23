@@ -19,7 +19,7 @@ class ProfileFeature extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Icon(icon, color: AppPallete.whiteColor, size: 30),
+          Icon(icon, size: 30),
           SizedBox(width: 20),
           Expanded(
             child: Column(
@@ -36,11 +36,7 @@ class ProfileFeature extends StatelessWidget {
                 ),
                 Text(
                   value,
-                  style: TextStyle(
-                    color: AppPallete.whiteColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium
                 ),
                 SizedBox(height: 10),
                 Container(height: 1, color: AppPallete.greyColor),

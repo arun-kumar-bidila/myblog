@@ -67,10 +67,24 @@ class _AddNewBlogState extends State<AddNewBlog> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actionsPadding: EdgeInsets.symmetric(horizontal: 16),
         title: Text("Add New Blog"),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+        ),
         actions: [
-          IconButton(onPressed: uploadBlog, icon: Icon(Icons.done_rounded)),
+          IconButton(
+            onPressed: uploadBlog,
+            iconSize: 30,
+            icon: Icon(
+              Icons.done_rounded,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
         ],
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
@@ -87,7 +101,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
           }
           return SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(16.0),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -105,7 +119,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
                             onTap: selectImage,
                             child: DottedBorder(
                               options: RoundedRectDottedBorderOptions(
-                                radius: Radius.circular(10),
+                                radius: Radius.circular(16),
                                 color: AppPallete.borderColor,
                                 strokeCap: .round,
                                 dashPattern: [10, 4],
@@ -117,11 +131,17 @@ class _AddNewBlogState extends State<AddNewBlog> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.folder_open, size: 40),
+                                    Icon(
+                                      Icons.folder_open,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                      size: 40,
+                                    ),
                                     SizedBox(height: 15),
                                     Text(
                                       "Select your image",
-                                      style: TextStyle(fontSize: 15),
+                                      style: TextStyle(fontSize: 16),
                                     ),
                                   ],
                                 ),
@@ -155,13 +175,16 @@ class _AddNewBlogState extends State<AddNewBlog> {
                                       child: Chip(
                                         label: Text(e),
                                         side: selectedTopics.contains(e)
-                                            ? null
+                                            ? BorderSide(
+                                                color:
+                                                    AppPallete.transparentColor,
+                                              )
                                             : BorderSide(
                                                 color: AppPallete.borderColor,
                                               ),
                                         color: selectedTopics.contains(e)
                                             ? WidgetStatePropertyAll(
-                                                AppPallete.gradient1,
+                                                AppPallete.secondaryColor,
                                               )
                                             : null,
                                       ),

@@ -34,19 +34,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: AppPallete.whiteColor,
-          ),
+          icon: Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () => context.go("/blog"),
         ),
         title: Text(
           "My Profile",
-          style: TextStyle(
-            fontSize: 16,
-            color: AppPallete.whiteColor,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         centerTitle: true,
       ),
@@ -103,20 +96,14 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 Text(
                                   user.name,
-                                  style: TextStyle(
-                                    color: AppPallete.whiteColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context).textTheme.titleLarge,
                                 ),
                                 SizedBox(height: 10),
                                 Text(
                                   user.email,
-                                  style: TextStyle(
-                                    color: AppPallete.whiteColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium,
                                 ),
                               ],
                             ),
@@ -150,11 +137,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                     child: Center(
                                       child: Text(
                                         "Info",
-                                        style: TextStyle(
-                                          color: AppPallete.whiteColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!
+                                            .copyWith(
+                                              color: AppPallete.whiteColor,
+                                            ),
                                       ),
                                     ),
                                   ),
@@ -179,11 +167,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                     child: Center(
                                       child: Text(
                                         "Blogs",
-                                        style: TextStyle(
-                                          color: AppPallete.whiteColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!
+                                            .copyWith(
+                                              color: AppPallete.whiteColor,
+                                            ),
                                       ),
                                     ),
                                   ),
@@ -239,19 +228,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                 final blogs = state.blogs;
 
                                 if (blogs.isEmpty) {
-                                 return Padding(
-                                   padding: const EdgeInsets.only(top: 40.0),
-                                   child: Center(
-                                     child: Text(
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 40.0),
+                                    child: Center(
+                                      child: Text(
                                         "No blogs yet",
                                         style: TextStyle(
                                           color: AppPallete.secondaryColor,
                                           fontSize: 16,
-                                          fontWeight: FontWeight.bold
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                   ),
-                                 );
+                                    ),
+                                  );
                                 }
 
                                 return ListView.builder(

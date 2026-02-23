@@ -52,11 +52,7 @@ class BlogCard extends StatelessWidget {
                     children: [
                       Text(
                         blog.title,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: AppPallete.whiteColor,
-                        ),
+                         style: Theme.of(context).textTheme.headlineMedium,
                         overflow: TextOverflow.ellipsis,
                       ),
 

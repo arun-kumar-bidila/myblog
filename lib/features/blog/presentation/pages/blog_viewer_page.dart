@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myblog/common/theme/app_pallete.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myblog/core/utils/format_date.dart';
 import 'package:myblog/features/blog/domain/entitites/blog.dart';
 
@@ -9,19 +9,22 @@ class BlogViewerPage extends StatelessWidget {
   //     MaterialPageRoute(builder: (_) => BlogViewerPage(blog: blog));
   const BlogViewerPage({super.key, required this.extra});
 
-
   @override
   Widget build(BuildContext context) {
-    
-  final controller = ScrollController();
+    final controller = ScrollController();
     final blog = extra as Blog;
 
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+        ),
       ),
       body: SafeArea(
-        
         child: Scrollbar(
           controller: controller,
           child: SingleChildScrollView(
@@ -32,20 +35,13 @@ class BlogViewerPage extends StatelessWidget {
                 children: [
                   Text(
                     blog.title,
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: AppPallete.whiteColor,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.headlineMedium
                   ),
                   SizedBox(height: 16),
 
                   Text(
                     "Published on : ${formatDate(blog.updated)}",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppPallete.whiteColor,
-                    ),
+                   style: Theme.of(context).textTheme.bodySmall
                   ),
                   SizedBox(height: 16),
                   ClipRRect(
@@ -60,11 +56,7 @@ class BlogViewerPage extends StatelessWidget {
                   SizedBox(height: 16),
                   Text(
                     blog.content,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: AppPallete.whiteColor,
-                      fontWeight: FontWeight.w400,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium
                   ),
                 ],
               ),
