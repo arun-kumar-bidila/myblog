@@ -74,23 +74,23 @@ class _LoginPageState extends State<LoginPage> {
                       isObscureText: true,
                     ),
                     SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            context.push("/forgot-password");
-                          },
-                          child: Text(
-                            "Forgot Password ?",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     GestureDetector(
+                    //       onTap: () {
+                    //         context.push("/forgot-password");
+                    //       },
+                    //       child: Text(
+                    //         "Forgot Password ?",
+                    //         style: TextStyle(
+                    //           fontSize: 16,
+                    //           fontWeight: FontWeight.bold,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     SizedBox(height: 15),
                     AuthGradientButton(
                       buttonText: "Sign In",
