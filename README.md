@@ -86,7 +86,7 @@ To get the project running locally:
 2. **Clone the repository**
 
    ```bash
-   git clone <repo-url> myblog
+   git clone https://github.com/arun-kumar-bidila/myblog.git 
    cd myblog
    ```
 
