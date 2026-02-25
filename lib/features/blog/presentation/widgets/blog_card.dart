@@ -17,6 +17,7 @@ class BlogCard extends StatelessWidget {
       },
       child: Container(
         height: 300,
+        margin: EdgeInsets.symmetric(vertical: 8),
        
         
         decoration: BoxDecoration(
@@ -52,11 +53,7 @@ class BlogCard extends StatelessWidget {
                     children: [
                       Text(
                         blog.title,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: AppPallete.whiteColor,
-                        ),
+                         style: Theme.of(context).textTheme.headlineMedium,
                         overflow: TextOverflow.ellipsis,
                       ),
 

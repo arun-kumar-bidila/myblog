@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myblog/common/theme/app_pallete.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myblog/common/theme/theme_cubit.dart';
 
 class ThemeSwitch extends StatelessWidget {
   const ThemeSwitch({super.key});
@@ -12,24 +13,18 @@ class ThemeSwitch extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            children: const [
-              Icon(Icons.dark_mode, color: AppPallete.whiteColor, size: 30),
+            children:  [
+              Icon(Icons.dark_mode, size: 30),
               SizedBox(width: 20),
               Text(
                 "Dark Mode",
-                style: TextStyle(
-                  color: AppPallete.whiteColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.titleMedium
               ),
             ],
           ),
           Switch(
-            value: false,
-            onChanged: (value) {
-              value = true;
-            },
+            value: context.watch<ThemeCubit>().state == ThemeMode.dark,
+            onChanged: (_) => context.read<ThemeCubit>().toggleTheme(),
           ),
         ],
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myblog/common/theme/app_pallete.dart';
+
 
 class EditInfoPasswordButton extends StatelessWidget {
   final IconData icon;
@@ -23,21 +23,17 @@ class EditInfoPasswordButton extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(icon, color: AppPallete.whiteColor, size: 30),
+                Icon(icon, size: 30),
                 SizedBox(width: 20),
                 Text(
                   label,
-                  style: TextStyle(
-                    color: AppPallete.whiteColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                   style: Theme.of(context).textTheme.titleMedium
                 ),
               ],
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: AppPallete.whiteColor,
+             
               size: 20,
             ),
           ],

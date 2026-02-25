@@ -28,17 +28,16 @@ class _BlogPageState extends State<BlogPage> {
       appBar: AppBar(
         title: Text(
           "My Blog",
-          style: TextStyle(
-            color: AppPallete.whiteColor,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
             context.go("/profile");
           },
-          icon: Icon(Icons.account_circle_rounded, color: AppPallete.whiteColor,size: 30),
+          icon: Icon(Icons.account_circle_rounded, size: 30),
         ),
         actions: [
           IconButton(
@@ -70,7 +69,7 @@ class _BlogPageState extends State<BlogPage> {
             return Loader();
           } else if (state is BlogDisplaySuccess) {
             return ListView.builder(
-              padding: EdgeInsets.only(top: 24,left:16,right: 16 ),
+              padding: EdgeInsets.only(top: 24, left: 16, right: 16),
               itemCount: state.blogs.length,
               itemBuilder: (context, index) {
                 final blog = state.blogs[index];

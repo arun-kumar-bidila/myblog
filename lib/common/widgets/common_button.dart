@@ -24,11 +24,9 @@ class CommonButton extends StatelessWidget {
         child: Center(
           child: Text(
             buttonName,
-            style: TextStyle(
-              color: AppPallete.whiteColor,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium!.copyWith(fontSize: 18),
           ),
         ),
       ),
