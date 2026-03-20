@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:myblog/core/error/exceptions.dart';
 import 'package:myblog/features/auth/data/models/user_model.dart';
@@ -18,6 +20,7 @@ abstract interface class AuthRemoteDataSource {
   Future<UserModel> getUserData();
 
   Future<void> userLogOut();
+  Future<void> sendFcmToken();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -48,6 +51,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
         dio.options.headers["Authorization"] = "Bearer $token";
 
+        await sendFcmToken();
+
         return UserModel.fromJson(data["user"]);
       } else {
         throw ServerException(response.data["message"]);
@@ -76,6 +81,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         final token = await storage.read(key: "token");
 
         dio.options.headers["Authorization"] = "Bearer $token";
+        await sendFcmToken();
         return UserModel.fromJson(data["user"]);
       } else {
         throw ServerException(response.data["message"]);
@@ -88,9 +94,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> getUserData() async {
     try {
-
-     
-
       final token = await storage.read(key: "token");
 
       dio.options.headers["Authorization"] = "Bearer $token";
@@ -99,6 +102,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (response.statusCode != 200) {
         throw ServerException(response.data["message"]);
       }
+      await sendFcmToken();
       return UserModel.fromJson(response.data["user"]);
     } catch (e) {
       throw ServerException(e.toString());
@@ -109,9 +113,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> userLogOut() async {
     try {
       await storage.write(key: "token", value: "");
-      
     } catch (e) {
       throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> sendFcmToken() async {
+    try {
+      final fcm = FirebaseMessaging.instance;
+      final fcmToken = await fcm.getToken();
+      await dio.post('/api/auth/savefcmtoken', data: {'fcmToken': fcmToken});
+    } catch (e) {
+      debugPrint('Fcm token error:${e.toString()}');
     }
   }
 }
