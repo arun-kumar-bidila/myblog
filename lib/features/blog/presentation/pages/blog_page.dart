@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myblog/common/notification/notification_handler.dart';
 import 'package:myblog/common/widgets/loader.dart';
 import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/core/utils/show_snackbar.dart';
@@ -19,6 +20,10 @@ class _BlogPageState extends State<BlogPage> {
   @override
   void initState() {
     super.initState();
+    NotificationHandler.init(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NotificationHandler.handleInitialMessage(context);
+    });
     context.read<BlogBloc>().add(BlogFetchAll());
   }
 

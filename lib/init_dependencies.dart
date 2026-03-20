@@ -29,8 +29,8 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   final dio = Dio(
     BaseOptions(
-      // baseUrl: "https://myblogserver-55ix.onrender.com",
-      baseUrl: "http://192.168.0.242:3001",
+      baseUrl: "https://myblogserver-55ix.onrender.com",
+      // baseUrl: "http://192.168.0.242:3001",
       headers: {"Content-Type": "application/json"},
       validateStatus: (status) => true,
     ),
