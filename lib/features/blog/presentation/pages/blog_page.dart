@@ -72,6 +72,34 @@ class _BlogPageState extends State<BlogPage> {
       ),
       body: Column(
         children: [
+          Container(
+            margin: EdgeInsets.all(16).copyWith(bottom: 0),
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppPallete.borderColor),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.search, size: 20, color: AppPallete.secondaryColor),
+                SizedBox(width: 12,),
+                Expanded(
+                  child: TextField(
+                    
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.zero,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      border: InputBorder.none,
+                      hintText: "Search Blog",
+                      hintStyle: Theme.of(context).textTheme.bodyMedium
+                    ),
+                    
+                  ),
+                ),
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
@@ -130,7 +158,7 @@ class _BlogPageState extends State<BlogPage> {
                   return Loader();
                 } else if (state is BlogDisplaySuccess) {
                   return ListView.builder(
-                    padding: EdgeInsets.only(top: 24, left: 16, right: 16),
+                    padding: EdgeInsets.only(left: 16, right: 16),
                     itemCount: state.blogs.length,
                     itemBuilder: (context, index) {
                       final blog = state.blogs[index];
