@@ -6,6 +6,7 @@ import 'package:myblog/common/notification/notification_handler.dart';
 import 'package:myblog/common/widgets/loader.dart';
 import 'package:myblog/common/theme/app_pallete.dart';
 import 'package:myblog/core/utils/show_snackbar.dart';
+import 'package:myblog/features/blog/domain/entitites/blog.dart';
 import 'package:myblog/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:myblog/features/blog/presentation/widgets/blog_card.dart';
 
@@ -24,6 +25,7 @@ class _BlogPageState extends State<BlogPage> {
     "Entertainment",
   ];
   String selectedBlogCategory = 'All';
+  final TextEditingController _searchController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -32,6 +34,46 @@ class _BlogPageState extends State<BlogPage> {
       NotificationHandler.handleInitialMessage(context);
     });
     context.read<BlogBloc>().add(BlogFetchAll());
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  void _onSearchChanged() {
+    setState(() {});
+  }
+
+  List<Blog> _applyFilters() {
+    List<Blog> blogs = [];
+    final blogState = context.read<BlogBloc>().state;
+    if (blogState is BlogDisplaySuccess) {
+      blogs = blogState.blogs;
+      if (selectedBlogCategory == 'Technology') {
+        blogs = blogs
+            .where((blog) => blog.selectedTopics.contains(selectedBlogCategory))
+            .toList();
+      } else if (selectedBlogCategory == 'Business') {
+        blogs = blogs
+            .where((blog) => blog.selectedTopics.contains(selectedBlogCategory))
+            .toList();
+      } else if (selectedBlogCategory == 'Programming') {
+        blogs = blogs
+            .where((blog) => blog.selectedTopics.contains(selectedBlogCategory))
+            .toList();
+      } else if (selectedBlogCategory == 'Entertainment') {
+        blogs = blogs
+            .where((blog) => blog.selectedTopics.contains(selectedBlogCategory))
+            .toList();
+      }
+
+      final searchQuery = _searchController.text.trim().toLowerCase();
+      if (searchQuery.isNotEmpty) {
+        blogs = blogs.where((blog) {
+          return blog.title.toLowerCase().contains(searchQuery);
+        }).toList();
+      }
+      return blogs;
+    } else {
+      return blogs;
+    }
   }
 
   @override
@@ -82,19 +124,18 @@ class _BlogPageState extends State<BlogPage> {
             child: Row(
               children: [
                 Icon(Icons.search, size: 20, color: AppPallete.secondaryColor),
-                SizedBox(width: 12,),
+                SizedBox(width: 12),
                 Expanded(
                   child: TextField(
-                    
+                    controller: _searchController,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.zero,
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
                       border: InputBorder.none,
                       hintText: "Search Blog",
-                      hintStyle: Theme.of(context).textTheme.bodyMedium
+                      hintStyle: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    
                   ),
                 ),
               ],
@@ -157,11 +198,12 @@ class _BlogPageState extends State<BlogPage> {
                 if (state is BlogLoading) {
                   return Loader();
                 } else if (state is BlogDisplaySuccess) {
+                  final blogs = _applyFilters();
                   return ListView.builder(
                     padding: EdgeInsets.only(left: 16, right: 16),
-                    itemCount: state.blogs.length,
+                    itemCount: blogs.length,
                     itemBuilder: (context, index) {
-                      final blog = state.blogs[index];
+                      final blog = blogs[index];
 
                       return BlogCard(blog: blog);
                     },
