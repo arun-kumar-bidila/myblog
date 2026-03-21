@@ -41,6 +41,10 @@ class _BlogPageState extends State<BlogPage> {
     setState(() {});
   }
 
+  Future<void> _onRefresh() async {
+    context.read<BlogBloc>().add(BlogFetchAll());
+  }
+
   List<Blog> _applyFilters() {
     List<Blog> blogs = [];
     final blogState = context.read<BlogBloc>().state;
@@ -188,29 +192,32 @@ class _BlogPageState extends State<BlogPage> {
           ),
 
           Expanded(
-            child: BlocConsumer<BlogBloc, BlogState>(
-              listener: (context, state) {
-                if (state is BlogFailure) {
-                  showSnackBar(context, state.message);
-                }
-              },
-              builder: (context, state) {
-                if (state is BlogLoading) {
-                  return Loader();
-                } else if (state is BlogDisplaySuccess) {
-                  final blogs = _applyFilters();
-                  return ListView.builder(
-                    padding: EdgeInsets.only(left: 16, right: 16),
-                    itemCount: blogs.length,
-                    itemBuilder: (context, index) {
-                      final blog = blogs[index];
-
-                      return BlogCard(blog: blog);
-                    },
-                  );
-                }
-                return SizedBox();
-              },
+            child: RefreshIndicator(
+              onRefresh: _onRefresh,
+              child: BlocConsumer<BlogBloc, BlogState>(
+                listener: (context, state) {
+                  if (state is BlogFailure) {
+                    showSnackBar(context, state.message);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is BlogLoading) {
+                    return Loader();
+                  } else if (state is BlogDisplaySuccess) {
+                    final blogs = _applyFilters();
+                    return ListView.builder(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      itemCount: blogs.length,
+                      itemBuilder: (context, index) {
+                        final blog = blogs[index];
+              
+                        return BlogCard(blog: blog);
+                      },
+                    );
+                  }
+                  return SizedBox();
+                },
+              ),
             ),
           ),
         ],
