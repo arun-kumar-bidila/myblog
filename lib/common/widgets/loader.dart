@@ -8,9 +8,9 @@ class Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SpinKitThreeBounce(
+      child: SpinKitFadingCircle(
         color: AppPallete.secondaryColor,
-        size: 30,
+        // size: 20,
        
       ),
     );
