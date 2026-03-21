@@ -34,6 +34,9 @@ class BlogCard extends StatelessWidget {
                   blog.imageUrl!,
                   fit: BoxFit.cover,
                   width: double.infinity,
+                  errorBuilder: (context, error, stackTrace) {
+                        return SizedBox();
+                      },
                 ),
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myblog/core/utils/format_date.dart';
 import 'package:myblog/features/blog/domain/entitites/blog.dart';
+import 'package:myblog/features/blog/presentation/widgets/blog_image_skeleton.dart';
 
 class BlogViewerPage extends StatelessWidget {
   final Object? extra;
@@ -35,13 +36,13 @@ class BlogViewerPage extends StatelessWidget {
                 children: [
                   Text(
                     blog.title,
-                    style: Theme.of(context).textTheme.headlineMedium
+                    style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   SizedBox(height: 16),
 
                   Text(
                     "Published on : ${formatDate(blog.updated)}",
-                   style: Theme.of(context).textTheme.bodySmall
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   SizedBox(height: 16),
                   ClipRRect(
@@ -50,13 +51,16 @@ class BlogViewerPage extends StatelessWidget {
                       blog.imageUrl!,
                       width: .infinity,
                       fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        return BlogImageSkeleton();
+                      },
                     ),
                   ),
 
                   SizedBox(height: 16),
                   Text(
                     blog.content,
-                    style: Theme.of(context).textTheme.bodyMedium
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),

@@ -42,6 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         centerTitle: true,
+        scrolledUnderElevation: 0,
       ),
       body: SafeArea(
         child: Padding(
