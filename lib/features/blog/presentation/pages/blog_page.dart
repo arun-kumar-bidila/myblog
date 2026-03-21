@@ -17,6 +17,13 @@ class BlogPage extends StatefulWidget {
 }
 
 class _BlogPageState extends State<BlogPage> {
+  List<String> blogCategories = [
+    "Technology",
+    "Business",
+    "Programming",
+    "Entertainment",
+  ];
+  String selectedBlogCategory = 'All';
   @override
   void initState() {
     super.initState();
@@ -63,28 +70,80 @@ class _BlogPageState extends State<BlogPage> {
         ],
         scrolledUnderElevation: 0,
       ),
-      body: BlocConsumer<BlogBloc, BlogState>(
-        listener: (context, state) {
-          if (state is BlogFailure) {
-            showSnackBar(context, state.message);
-          }
-        },
-        builder: (context, state) {
-          if (state is BlogLoading) {
-            return Loader();
-          } else if (state is BlogDisplaySuccess) {
-            return ListView.builder(
-              padding: EdgeInsets.only(top: 24, left: 16, right: 16),
-              itemCount: state.blogs.length,
-              itemBuilder: (context, index) {
-                final blog = state.blogs[index];
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SizedBox(
+              height: 40,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: blogCategories.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedBlogCategory =
+                            selectedBlogCategory == blogCategories[index]
+                            ? 'All'
+                            : blogCategories[index];
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      margin: EdgeInsets.only(right: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: selectedBlogCategory == blogCategories[index]
+                              ? AppPallete.transparentColor
+                              : AppPallete.borderColor,
+                          width: 1,
+                        ),
+                        color: selectedBlogCategory == blogCategories[index]
+                            ? AppPallete.secondaryColor
+                            : AppPallete.transparentColor,
+                      ),
+                      child: Text(
+                        blogCategories[index],
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
 
-                return BlogCard(blog: blog);
+          Expanded(
+            child: BlocConsumer<BlogBloc, BlogState>(
+              listener: (context, state) {
+                if (state is BlogFailure) {
+                  showSnackBar(context, state.message);
+                }
               },
-            );
-          }
-          return SizedBox();
-        },
+              builder: (context, state) {
+                if (state is BlogLoading) {
+                  return Loader();
+                } else if (state is BlogDisplaySuccess) {
+                  return ListView.builder(
+                    padding: EdgeInsets.only(top: 24, left: 16, right: 16),
+                    itemCount: state.blogs.length,
+                    itemBuilder: (context, index) {
+                      final blog = state.blogs[index];
+
+                      return BlogCard(blog: blog);
+                    },
+                  );
+                }
+                return SizedBox();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

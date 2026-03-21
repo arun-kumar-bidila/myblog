@@ -86,6 +86,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
             ),
           ),
         ],
+        scrolledUnderElevation: 0,
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
         listener: (context, state) {
