@@ -24,6 +24,7 @@ abstract class Env {
   @EnviedField(varName: "PRODUCTION_URL", obfuscate: true)
   static final String productionUrl = _Env.productionUrl;
 
+  /* ********************************  AUTH SECTION  ********************************** */
   @EnviedField(varName: "SIGNUP_USER", obfuscate: true)
   static final String signupUser = _Env.signupUser;
 
@@ -35,4 +36,15 @@ abstract class Env {
 
   @EnviedField(varName: "SEND_FCM_TOKEN", obfuscate: true)
   static final String sendFcmToken = _Env.sendFcmToken;
+
+  /* ********************************  BLOG SECTION  ********************************** */
+
+  @EnviedField(varName: "UPLOAD_BLOG", obfuscate: true)
+  static final String uploadBlog = _Env.uploadBlog;
+
+  @EnviedField(varName: "UPLOAD_BLOG_IMAGE", obfuscate: true)
+  static final String uploadBlogImage = _Env.uploadBlogImage;
+
+  @EnviedField(varName: "GET_ALL_BLOGS", obfuscate: true)
+  static final String getAllBlogs = _Env.getAllBlogs;
 }

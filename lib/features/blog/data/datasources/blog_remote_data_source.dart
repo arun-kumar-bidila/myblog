@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:myblog/core/error/exceptions.dart';
+import 'package:myblog/env/env.dart';
 import 'package:myblog/features/blog/data/models/blog_model.dart';
 
 abstract interface class BlogRemoteDataSource {
@@ -18,7 +19,7 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
   @override
   Future<BlogModel> uploadBlog({required BlogModel blog}) async {
     try {
-      final response = await dio.post("/api/blog/uploadblog", data: blog);
+      final response = await dio.post(Env.uploadBlog, data: blog);
 
       if (response.statusCode == 200) {
         return BlogModel.fromJson(response.data["blog"]);
@@ -37,7 +38,7 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
         "image": await MultipartFile.fromFile(image.path),
       });
 
-      final response = await dio.post("/api/blog/uploadimage", data: formData);
+      final response = await dio.post(Env.uploadBlogImage, data: formData);
 
       if (response.statusCode == 200) {
         return response.data["imageUrl"];
@@ -52,7 +53,7 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
   @override
   Future<List<BlogModel>> getAllBlogs() async {
     try {
-      final response = await dio.get("/api/blog/getallblogs");
+      final response = await dio.get(Env.getAllBlogs);
 
       if (response.statusCode != 200) {
         throw ServerException(response.data["message"]);
