@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:myblog/core/error/exceptions.dart';
+import 'package:myblog/env/env.dart';
 import 'package:myblog/features/blog/data/models/blog_model.dart';
 
 abstract interface class ProfileRemoteDatasource {
@@ -21,7 +22,7 @@ class ProfileRemoteDatasourceImpl implements ProfileRemoteDatasource {
   }) async {
     try {
       final response = await dio.post(
-        "/api/auth/changepassword",
+        Env.changePassword,
         data: {"currentPassword": currentPassword, "newPassword": newPassword},
       );
 
@@ -37,7 +38,7 @@ class ProfileRemoteDatasourceImpl implements ProfileRemoteDatasource {
   @override
   Future<List<BlogModel>> fetchBlogsByUser() async {
     try {
-      final response = await dio.get("/api/blog/getuserblogs");
+      final response = await dio.get(Env.fetchBlogsByUser);
       if (response.statusCode != 200) {
         throw ServerException(response.data["message"]);
       }

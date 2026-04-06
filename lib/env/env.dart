@@ -47,4 +47,12 @@ abstract class Env {
 
   @EnviedField(varName: "GET_ALL_BLOGS", obfuscate: true)
   static final String getAllBlogs = _Env.getAllBlogs;
+
+  /* ********************************    PROFILE SECTION ****************************** */
+
+  @EnviedField(varName: "CHANGE_PASSWORD", obfuscate: true)
+  static final String changePassword = _Env.changePassword;
+
+  @EnviedField(varName: "FETCH_BLOGS_BY_USER", obfuscate: true)
+  static final String fetchBlogsByUser = _Env.fetchBlogsByUser;
 }
