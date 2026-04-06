@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:myblog/common/cubits/app_user/app_user_cubit.dart';
 import 'package:myblog/core/network/connection_checker.dart';
+import 'package:myblog/env/env.dart';
 import 'package:myblog/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:myblog/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:myblog/features/auth/domain/repository/auth_repository.dart';
@@ -29,8 +30,7 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   final dio = Dio(
     BaseOptions(
-      baseUrl: "https://myblogserver-55ix.onrender.com",
-      // baseUrl: "http://192.168.0.242:3001",
+      baseUrl: Env.baseUrl,
       headers: {"Content-Type": "application/json"},
       validateStatus: (status) => true,
     ),

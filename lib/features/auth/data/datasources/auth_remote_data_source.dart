@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:myblog/core/error/exceptions.dart';
+import 'package:myblog/env/env.dart';
 import 'package:myblog/features/auth/data/models/user_model.dart';
 
 abstract interface class AuthRemoteDataSource {
@@ -39,7 +40,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     try {
       final response = await dio.post(
-        "/api/auth/login",
+        Env.loginUser,
         data: {"email": email, "password": password},
       );
 
@@ -70,7 +71,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     try {
       final response = await dio.post(
-        "/api/auth/signup",
+        Env.signupUser,
         data: {"name": name, "email": email, "password": password},
       );
 
@@ -97,7 +98,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final token = await storage.read(key: "token");
 
       dio.options.headers["Authorization"] = "Bearer $token";
-      final response = await dio.get("/api/auth/getuser");
+      final response = await dio.get(Env.getUserDate);
 
       if (response.statusCode != 200) {
         throw ServerException(response.data["message"]);
@@ -123,7 +124,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       final fcm = FirebaseMessaging.instance;
       final fcmToken = await fcm.getToken();
-      await dio.post('/api/auth/savefcmtoken', data: {'fcmToken': fcmToken});
+      await dio.post(Env.sendFcmToken, data: {'fcmToken': fcmToken});
     } catch (e) {
       debugPrint('Fcm token error:${e.toString()}');
     }
