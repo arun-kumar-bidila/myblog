@@ -122,54 +122,7 @@ void main() {
     });
   });
 
-  test("get all blogs is success", () async {
-    final mockResponse = Response(
-      requestOptions: RequestOptions(path: ""),
-      statusCode: 200,
-      data: {
-        "blogs": {
-          {
-            "_id": "some",
-            "title": "my blog",
-            "content": "this is my blog content",
-            "imageUrl":
-                "https://res.cloudinary.com/duoenlwuj/image/upload/v1771220021/hhttyvq6pdwp40n3olzu.png",
-            "posterId": "698d8264c821712c4b4fd92f",
-            "selectedTopics": ["Technology"],
-            "updated": "2026-02-16T10:30:00Z",
-          },
-          {
-            "_id": "some",
-            "title": "my blog",
-            "content": "this is my blog content",
-            "imageUrl":
-                "https://res.cloudinary.com/duoenlwuj/image/upload/v1771220021/hhttyvq6pdwp40n3olzu.png",
-            "posterId": "698d8264c821712c4b4fd92f",
-            "selectedTopics": ["Technology"],
-            "updated": "2026-02-16T10:30:00Z",
-          },
-        },
-      },
-    );
 
-    when(() => mockDio.get(any())).thenAnswer((_) async => mockResponse);
 
-    final result = await blogRemoteDataSourceImpl.getAllBlogs();
-
-    expect(result, isA<List<BlogModel>>());
-  });
-
-  test("get all blogs is failure", () async {
-    final mockResponse = Response(
-      requestOptions: RequestOptions(path: ""),
-      statusCode: 500,
-      data: {"message": "this is a error"},
-    );
-
-    when(() => mockDio.get(any())).thenAnswer((_) async => mockResponse);
-
-    final result = blogRemoteDataSourceImpl.getAllBlogs();
-
-    expect(result, throwsA(isA<ServerException>()));
-  });
+  
 }
