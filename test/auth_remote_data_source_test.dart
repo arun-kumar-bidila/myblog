@@ -37,12 +37,18 @@ void main() {
 
   group("Auth Remote DataSource-", () {
     group("login user-", () {
+      late String email;
+      late String password;
+
+      setUp(() {
+        email = "email";
+        password = "password";
+      });
+
       test(
         "given user email and password when login called return user model",
         () async {
           //Arrange
-          final email = "arunkumar@gmail.com";
-          final password = "123456";
 
           final mockResponse = Response(
             requestOptions: RequestOptions(path: ""),
@@ -71,8 +77,7 @@ void main() {
 
       test("when response is not 200", () async {
         //Arrange
-        final email = "arunkumar@gmail.com";
-        final password = "123456";
+
         final mockResponse = Response(
           requestOptions: RequestOptions(path: ""),
           statusCode: 500,
@@ -92,10 +97,16 @@ void main() {
     });
 
     group("signup user -", () {
+      late String name;
+      late String email;
+      late String password;
+      setUp(() {
+        email = "email";
+        name = "name";
+        password = "password";
+      });
       test("when is signup sends 201 response return usermodel", () async {
-        final name = "arun";
-        final email = "arun";
-        final password = 'arun';
+        
         final mockResponse = Response(
           requestOptions: RequestOptions(path: ""),
           statusCode: 201,
@@ -122,9 +133,7 @@ void main() {
       });
 
       test("when signup status code is not 201", () {
-        final name = "arun";
-        final email = "arun";
-        final password = 'arun';
+        
         final mockResponse = Response(
           requestOptions: RequestOptions(path: ""),
           statusCode: 500,
@@ -177,6 +186,4 @@ void main() {
       expect(result, throwsA(isA<ServerException>()));
     });
   });
-
-
 }

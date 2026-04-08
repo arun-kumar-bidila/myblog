@@ -15,7 +15,7 @@ void main() {
   });
 
   group("profile remote data source --", () {
-    group("change password ---", () {
+    group("change password --", () {
       late String currentPassword;
       late String newPassword;
       setUp(() {
@@ -25,8 +25,6 @@ void main() {
 
       test("when the change password successful", () async {
         //Arrange
-        // final currentPassword = "some";
-        // final newPassword = "new";
         final mockResponse = Response(
           requestOptions: RequestOptions(path: ""),
           statusCode: 200,

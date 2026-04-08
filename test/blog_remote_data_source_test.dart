@@ -18,15 +18,21 @@ void main() {
   });
   group("given blogRemoteDateSource", () {
     group("given uploadBlogImage", () {
+      late File file;
+
+      setUp(() async {
+        file = File("dummy_image.jpg");
+        await file.writeAsBytes([0, 1, 2, 3]);
+      });
+      tearDown(() async {
+        await file.delete();
+      });
       test("when upload is successful", () async {
         final mockResponse = Response(
           requestOptions: RequestOptions(path: ""),
           statusCode: 200,
           data: {"imageUrl": "someurl"},
         );
-
-        final file = File("dummy_image.jpg");
-        await file.writeAsBytes([0, 1, 2, 3]);
 
         when(
           () => mockDio.post(any(), data: any(named: "data")),
@@ -36,7 +42,6 @@ void main() {
           image: file,
         );
         expect(result, isA<String>());
-        await file.delete();
       });
 
       test("when upload is failed-", () async {
@@ -45,22 +50,22 @@ void main() {
           statusCode: 500,
           data: {"message": "error"},
         );
-        final file = File("dummy_image.jpg");
-        await file.writeAsBytes([0, 1, 2, 3]);
+
         when(
           () => mockDio.post(any(), data: any(named: "data")),
         ).thenAnswer((_) async => mockResponse);
 
         final result = blogRemoteDataSourceImpl.uploadBlogImage(image: file);
         expect(result, throwsA(isA<ServerException>()));
-        await file.delete();
       });
     });
   });
 
   group("given uploadblog-", () {
-    test("when the upload blog is success", () async {
-      final blog = BlogModel(
+    late BlogModel blog;
+
+    setUp(() {
+      blog = BlogModel(
         id: "id",
         title: "title",
         content: "content",
@@ -69,6 +74,8 @@ void main() {
         selectedTopics: ["Technology"],
         updated: DateTime.parse("2024-04-07"),
       );
+    });
+    test("when the upload blog is success", () async {
       final mockResponse = Response(
         requestOptions: RequestOptions(path: ""),
         statusCode: 200,
@@ -96,16 +103,6 @@ void main() {
     });
 
     test("when the upload blog is failure", () async {
-      final blog = BlogModel(
-        id: "id",
-        title: "title",
-        content: "content",
-        imageUrl: "imageUrl",
-        posterId: "posterId",
-        selectedTopics: ["Technology"],
-        updated: DateTime.parse("2024-04-07"),
-      );
-
       final mockResponse = Response(
         requestOptions: RequestOptions(path: ""),
         statusCode: 500,
@@ -122,56 +119,56 @@ void main() {
     });
   });
 
-
-
-  test("get all blogs is success", () async {
-    final mockResponse = Response(
-      requestOptions: RequestOptions(path: ""),
-      statusCode: 200,
-      data: {
-        "blogs": {
-          {
-            "_id": "some",
-            "title": "my blog",
-            "content": "this is my blog content",
-            "imageUrl":
-                "https://res.cloudinary.com/duoenlwuj/image/upload/v1771220021/hhttyvq6pdwp40n3olzu.png",
-            "posterId": "698d8264c821712c4b4fd92f",
-            "selectedTopics": ["Technology"],
-            "updated": "2026-02-16T10:30:00Z",
-          },
-          {
-            "_id": "some",
-            "title": "my blog",
-            "content": "this is my blog content",
-            "imageUrl":
-                "https://res.cloudinary.com/duoenlwuj/image/upload/v1771220021/hhttyvq6pdwp40n3olzu.png",
-            "posterId": "698d8264c821712c4b4fd92f",
-            "selectedTopics": ["Technology"],
-            "updated": "2026-02-16T10:30:00Z",
+  group("get all blogs----", () {
+    test("get all blogs is success", () async {
+      final mockResponse = Response(
+        requestOptions: RequestOptions(path: ""),
+        statusCode: 200,
+        data: {
+          "blogs": {
+            {
+              "_id": "some",
+              "title": "my blog",
+              "content": "this is my blog content",
+              "imageUrl":
+                  "https://res.cloudinary.com/duoenlwuj/image/upload/v1771220021/hhttyvq6pdwp40n3olzu.png",
+              "posterId": "698d8264c821712c4b4fd92f",
+              "selectedTopics": ["Technology"],
+              "updated": "2026-02-16T10:30:00Z",
+            },
+            {
+              "_id": "some",
+              "title": "my blog",
+              "content": "this is my blog content",
+              "imageUrl":
+                  "https://res.cloudinary.com/duoenlwuj/image/upload/v1771220021/hhttyvq6pdwp40n3olzu.png",
+              "posterId": "698d8264c821712c4b4fd92f",
+              "selectedTopics": ["Technology"],
+              "updated": "2026-02-16T10:30:00Z",
+            },
           },
         },
-      },
-    );
+      );
 
-    when(() => mockDio.get(any())).thenAnswer((_) async => mockResponse);
+      when(() => mockDio.get(any())).thenAnswer((_) async => mockResponse);
 
-    final result = await blogRemoteDataSourceImpl.getAllBlogs();
+      final result = await blogRemoteDataSourceImpl.getAllBlogs();
 
-    expect(result, isA<List<BlogModel>>());
-  });
+      expect(result, isA<List<BlogModel>>());
+    });
 
-  test("get all blogs is failure", () async {
-    final mockResponse = Response(
-      requestOptions: RequestOptions(path: ""),
-      statusCode: 500,
-      data: {"message": "this is a error"},
-    );
+    test("get all blogs is failure", () async {
+      final mockResponse = Response(
+        requestOptions: RequestOptions(path: ""),
+        statusCode: 500,
+        data: {"message": "this is a error"},
+      );
 
-    when(() => mockDio.get(any())).thenAnswer((_) async => mockResponse);
+      when(() => mockDio.get(any())).thenAnswer((_) async => mockResponse);
 
-    final result = blogRemoteDataSourceImpl.getAllBlogs();
+      final result = blogRemoteDataSourceImpl.getAllBlogs();
 
-    expect(result, throwsA(isA<ServerException>()));
+      expect(result, throwsA(isA<ServerException>()));
+    });
   });
 }
